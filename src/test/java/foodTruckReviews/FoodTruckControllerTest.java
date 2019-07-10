@@ -55,6 +55,15 @@ public class FoodTruckControllerTest {
 	@Mock
 	private Model model;
 	
+	@Mock
+	Tag tag;
+	
+	@Mock
+	Tag anotherTag;
+	
+	@Mock
+	private TagRepository tagRepo;
+	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -96,5 +105,25 @@ public class FoodTruckControllerTest {
 		underTest.findAllReviews(model);
 		verify(model).addAttribute("reviews", allreviews);
 	}
+	
+	@Test
+	public void shouldAddSingleTagToModel() throws TagNotFoundException {
+		long arbitraryTagId = 1;
+		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
+		
+		underTest.findOneTag(arbitraryTagId, model);
+		verify(model).addAttribute("tags", tag);
+	}
+	
+	@Test
+	public void shouldAddAllTagsModel() {
+		Collection<Tag> allTags = Arrays.asList(tag, anotherTag);
+		when(tagRepo.findAll()).thenReturn(allTags);
+		
+		underTest.findAllTags(model);
+		verify(model).addAttribute("tags", allTags);
+	}
+	
+	
 }
 
