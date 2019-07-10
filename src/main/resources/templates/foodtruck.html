@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns: th="http://www.thymeleaf.org">
+<head>
+    <title>Food Truck</title>
+</head>
+<link rel="stylesheet" href="./css/styles.css">
+<body>
+
+  <div class="mainBody">    
+    <h1>Food Truck</h1>
+    <div class="navbar">
+            <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+            <a href="http://localhost:8080/show-all-cuisines">Cuisines</a>
+            <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+            <div class="dropdown">
+            </div> 
+          </div>
+          <div class="dashed">
+
+    <div id="foodtruck" th:each = "foodtruck: ${foodtrucks}">
+      
+            
+        <h2 th:text = "${foodtruck.name}"></h2>
+        <h3 th:each="cuisine: ${foodtruck.cuisines}" th:text="${cuisine.name}"></h3>
+        <section id = "indivfoodtruck">
+        <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
+        <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
+    </section>
+    </div>
+    </div>
+    <footer class = "footer">    
+  		<a href="http://localhost:8080/show-all-cuisines">List of Cuisines</a>
+        
+        <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
+        
+        <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
+    </footer>
+   </div>
+</body>
+</html>

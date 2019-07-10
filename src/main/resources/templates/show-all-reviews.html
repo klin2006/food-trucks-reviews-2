@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Reviews</title>
+    </head>
+    <link rel="stylesheet" href="./css/styles.css">
+    <body>
+        <h1>List of Reviews</h1>
+        <div class="mainBody">
+        <div class="navbar">
+          <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+          <a href="http://localhost:8080/show-all-cuisines">Cuisines</a>
+          <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+          <div class="dropdown">
+          </div> 
+        </div>
+        <div class="dashed">
+              <div class="dashed">  
+        <div th:each="review: ${reviews}">
+            <p th:href="@{/review(${review.id})}" th:text="${review.review}"></p>
+    </div>
+    </div>
+    
+    <footer class = "footer">
+    	<a href="http://localhost:8080/show-all-cuisines">List of Cuisines</a>
+                
+        <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
+    </footer>    
+    </body>
+
+</html>
