@@ -17,8 +17,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import foodTruckReviews.Cuisine;
-import foodTruckReviews.CuisineRepository;
+import foodTruckReviews.Tag;
+import foodTruckReviews.TagRepository;
 
 import foodTruckReviews.Foodtruck;
 import foodTruckReviews.FoodtruckRepository;
@@ -31,16 +31,13 @@ import foodTruckReviews.ReviewRepository;
 
 public class JPAMappingsTest {
 	@Resource
-	private CuisineRepository cuisineRepo;
+	private TagRepository tagRepo;
 	
 	@Resource
 
 	private FoodtruckRepository foodtruckRepo;
 	
-	@Resource
-	private TagRepository tagRepo;
-
-	
+		
 	@Resource
 	private TestEntityManager entityManager;
 	
@@ -49,30 +46,30 @@ public class JPAMappingsTest {
 	
 	
 	@Test
-	public void shouldSaveAndLoadCuisine() {
-		Cuisine cuisine = new Cuisine("type");
-		cuisine = cuisineRepo.save(cuisine);
-		long cuisineId = cuisine.getId();
+	public void shouldSaveAndLoadTag() {
+		Tag tag = new Tag("type");
+		tag = tagRepo.save(tag);
+		long tagId = tag.getId();
 		
 		entityManager.flush();
 		entityManager.clear();
 		
-		Optional<Cuisine> result = cuisineRepo.findById(cuisineId);
-		cuisine = result.get();
-		assertThat(cuisine.getType(), is("type"));
+		Optional<Tag> result = tagRepo.findById(tagId);
+		tag = result.get();
+		assertThat(tag.getType(), is("type"));
 		
 	}
 	
 	@Test
-	public void shouldGenerateCuisineId() {
-		Cuisine cuisine = new Cuisine("type");
-		cuisine = cuisineRepo.save(cuisine);
-		long cuisineId = cuisine.getId();
+	public void shouldGenerateTagId() {
+		Tag tag = new Tag("type");
+		tag = tagRepo.save(tag);
+		long tagId = tag.getId();
 		
 		entityManager.flush();
 		entityManager.clear();
 		
-		assertThat(cuisineId, is(greaterThan(0L)));
+		assertThat(tagId, is(greaterThan(0L)));
 		
 	}
 
@@ -92,11 +89,11 @@ public class JPAMappingsTest {
 	}
 	
 	@Test
-	public void shouldEstablishFoodtruckToCuisinesRelationships() {
-		Cuisine american = new Cuisine("american");
-		american = cuisineRepo.save(american);
-		Cuisine italian = new Cuisine("italian");
-		italian = cuisineRepo.save(italian);
+	public void shouldEstablishFoodtruckToTagsRelationships() {
+		Tag american = new Tag("american");
+		american = tagRepo.save(american);
+		Tag italian = new Tag("italian");
+		italian = tagRepo.save(italian);
 		
 		Foodtruck foodtruck = new Foodtruck("Mikey's Late Night Slice", "map1", italian, american);
 		foodtruck = foodtruckRepo.save(foodtruck);
@@ -107,12 +104,12 @@ public class JPAMappingsTest {
 		
 		Optional<Foodtruck> result = foodtruckRepo.findById(foodtruckId);
 		foodtruck = result.get();
-		assertThat(foodtruck.getCuisines(), containsInAnyOrder(american, italian));
+		assertThat(foodtruck.getTags(), containsInAnyOrder(american, italian));
 	}
 	
 	@Test
-	public void shouldFindFoodtrucksForCuisine() {
-		Cuisine mexican = cuisineRepo.save(new Cuisine("mexican"));
+	public void shouldFindFoodtrucksForTag() {
+		Tag mexican = tagRepo.save(new Tag("mexican"));
 
 		Foodtruck foodtruck1 = foodtruckRepo.save(new Foodtruck("Mr. Grill Tacos", "map1", mexican));
 		Foodtruck foodtruck2 = foodtruckRepo.save(new Foodtruck("La Arepa Picante", "map2", mexican ));
@@ -120,14 +117,14 @@ public class JPAMappingsTest {
 		entityManager.flush();
 		entityManager.clear();
 		
-		Collection<Foodtruck> foodtrucksForCuisine = foodtruckRepo.findByCuisinesContains(mexican);
+		Collection<Foodtruck> foodtrucksForCuisine = foodtruckRepo.findByTagsContains(mexican);
 		assertThat(foodtrucksForCuisine, containsInAnyOrder(foodtruck1, foodtruck2));
 		
 	}
 	
 	@Test
-	public void shouldFindFoodtrucksForCuisineId() {
-		Cuisine mediterranean  = cuisineRepo.save(new Cuisine("mediterranean"));
+	public void shouldFindFoodtrucksForTagId() {
+		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
 
 		long cuisineId = mediterranean.getId();
 
@@ -138,7 +135,7 @@ public class JPAMappingsTest {
 		entityManager.flush();
 		entityManager.clear();
 		
-		Collection<Foodtruck> FoodtrucksForCuisine = foodtruckRepo.findByCuisinesId(cuisineId);
+		Collection<Foodtruck> FoodtrucksForCuisine = foodtruckRepo.findByTagsId(cuisineId);
 		assertThat(FoodtrucksForCuisine, containsInAnyOrder(foodtruck3, foodtruck4));
 		
 	}
@@ -159,95 +156,4 @@ public class JPAMappingsTest {
 		assertThat(foodtruck.getReviews(), containsInAnyOrder(review, review2));
 		
 	}
-	
-	//###################################################################################################################################################
-	
-	
-	
-	
-	
-	@Test
-	public void shouldSaveAndLoadTag() {
-		Tag tag = new Tag("tag");
-		tag = tagRepo.save(tag);
-		long tagId = tag.getId();
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		Optional<Tag> result = tagRepo.findById(tagId);
-		tag = result.get();
-		assertThat(tag.getTag(), is("tag"));
-		
-	}
-	
-	@Test
-	public void shouldGenerateTagId() {
-		Tag tag = new Tag("tag");
-		tag = tagRepo.save(tag);
-		long tagId = tag.getId();
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		assertThat(tagId, is(greaterThan(0L)));
-		
-	}
-
-	@Test
-	public void shouldEstablishTagsToFoodTruckRelationships() {
-		Foodtruck foodtruck = new Foodtruck("Mikey's Late Night Slice", "map1");
-		foodtruck = foodtruckRepo.save(foodtruck);
-		long foodtruckId = foodtruck.getId();
-		
-		Tag tag1 = new Tag("tag1", foodtruck);
-		tag1 = tagRepo.save(tag1);
-		Tag tag2 = new Tag("tag2", foodtruck);
-		tag2 = tagRepo.save(tag2);
-		long tag1Id = tag1.getId();
-		long tag2Id = tag2.getId();
-		
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		Optional<Tag> result1 = tagRepo.findById(tag1Id);
-		tag1 = result1.get();
-		Optional<Tag> result2 = tagRepo.findById(tag2Id);
-		tag2 = result1.get();
-		assertThat(tag1.getFoodTruck(), containsInAnyOrder(foodtruck));
-		assertThat(tag2.getFoodTruck(), containsInAnyOrder(foodtruck));
-	}
-	
-	@Test
-	public void shouldFindTagForFoodTrucks() {
-
-		Foodtruck foodtruck1 = foodtruckRepo.save(new Foodtruck("Mr. Grill Tacos", "map1"));
-		Foodtruck foodtruck2 = foodtruckRepo.save(new Foodtruck("La Arepa Picante", "map2"));
-		
-		Tag tag1 = tagRepo.save(new Tag("tag1", foodtruck1, foodtruck2));
-		
-		entityManager.flush();
-		entityManager.clear();
-		
-		Collection<Tag> tagForFoodtrucks = tagRepo.findByFoodTruckContains(foodtruck1);
-		assertThat(tagForFoodtrucks, containsInAnyOrder(tag1));
-		
-	}
-	
-	@Test
-	public void shouldFindTagForFoodTruckId() {
-		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
-		long foodtruckId = foodtruck.getId();
-		
-		Tag tag1 = tagRepo.save(new Tag("tag1", foodtruck));
-
-		entityManager.flush();
-		entityManager.clear();
-		
-		Collection<Tag> tagForFoodTruck = tagRepo.findByFoodTruckIdContains(foodtruckId);
-		assertThat(tagForFoodTruck, containsInAnyOrder(tag1));
-		
-	}
-}
-
+}	

@@ -15,11 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
 
-
-
-
-
-
 public class FoodTruckControllerTest {
 	
 	@InjectMocks
@@ -44,25 +39,16 @@ public class FoodTruckControllerTest {
 	private ReviewRepository reviewRepo;
 	
 	@Mock
-	private Cuisine cuisine;
+	private Tag tag;
 	
 	@Mock
-	private Cuisine anotherCuisine;
-	
-	@Mock
-	private CuisineRepository cuisineRepo;
-	
-	@Mock
-	private Model model;
-	
-	@Mock
-	Tag tag;
-	
-	@Mock
-	Tag anotherTag;
+	private Tag anotherTag;
 	
 	@Mock
 	private TagRepository tagRepo;
+	
+	@Mock
+	private Model model;
 	
 	@Before
 	public void setUp() {
