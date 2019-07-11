@@ -21,19 +21,19 @@ public class Foodtruck {
 	private String map;
 	
 	@ManyToMany
-	private Collection<Cuisine> cuisines;
+	private Collection<Tag> tags;
 	
 	@OneToMany(mappedBy = "foodtruck")
 	private Collection<Review> reviews;
-
+	
 	public Foodtruck() {
 		
 	}
 	
-	public Foodtruck(String name, String map, Cuisine...cuisines) {
+	public Foodtruck(String name, String map, Tag...tags) {
 		this.name = name;
 		this.map = map;
-		this.cuisines = new HashSet<>(Arrays.asList(cuisines));
+		this.tags = new HashSet<>(Arrays.asList(tags));
 	}
 
 	public long getId() {
@@ -48,12 +48,16 @@ public class Foodtruck {
 		return map;
 	}
 	
-	public Collection<Cuisine> getCuisines(){
+	public Collection<Tag> getTags(){
 		
-		return cuisines;
+		return tags;
 	}
 	
-
+	
+	public Collection<Review> getReviews() {
+		return reviews;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -76,8 +80,5 @@ public class Foodtruck {
 		return true;
 	}
 
-	public Collection<Review> getReviews() {
-		return reviews;
-	}
 
 }

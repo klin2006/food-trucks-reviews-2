@@ -6,8 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FoodtruckRepository extends CrudRepository<Foodtruck, Long> {
 
-	Collection<Foodtruck> findByCuisinesContains(Cuisine cuisine);
+	Collection<Foodtruck> findByTagsContains(Tag tags);
 
-	Collection<Foodtruck> findByCuisinesId(Long id);
+	Collection<Foodtruck> findByTagsId(Long id);
 
 }
