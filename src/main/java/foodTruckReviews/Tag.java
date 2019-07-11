@@ -17,7 +17,6 @@ public class Tag {
 	private long id;
 	
 	private String type;
-	
 
 	@ManyToMany(mappedBy = "tags")
 	private Collection<Foodtruck>foodtrucks;
@@ -47,6 +46,7 @@ public class Tag {
 		return foodtrucks;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
