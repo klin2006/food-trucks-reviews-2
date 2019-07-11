@@ -1,54 +1,52 @@
 package foodTruckReviews;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+
+
 @Entity
+
 public class Tag {
-	
-	@GeneratedValue
 	@Id
+	@GeneratedValue
 	private long id;
 	
-	private String tag;
+	private String type;
+	
 
-	@ManyToMany
-	private Collection<Foodtruck> foodTruck;
+	@ManyToMany(mappedBy = "tags")
+	private Collection<Foodtruck>foodtrucks;
 
-	public Tag(String tag, Foodtruck...foodTruck) {
-		this.tag = tag;
-		this.foodTruck = new HashSet<>(Arrays.asList(foodTruck));
-	}
-
-
-	public long getId() {
-		
-		return id;
-	}
-
-	public Object getTag() {
-		
-		return tag;
-	}
-
+	
 	public Tag() {
 		
 	}
-	
-	public Collection<Foodtruck> getFoodTruck(){
-		return foodTruck;
+
+	public Tag(String type) {
+		this.type = type;
 	}
 	
-	public void addFoodTruckToTag(Foodtruck truckToAdd) {
-		foodTruck.add(truckToAdd);
+	public String getName() {
+		return type.toString();
 	}
 	
+	public long getId() {
+		return id;
+	}
+	
+	public String getType(){
+		return type;
+	}
+
+	public Collection<Foodtruck> getFoodtrucks(){
+		return foodtrucks;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -56,7 +54,7 @@ public class Tag {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -70,4 +68,5 @@ public class Tag {
 			return false;
 		return true;
 	}
+
 }

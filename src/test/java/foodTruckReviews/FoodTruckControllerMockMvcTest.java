@@ -30,15 +30,12 @@ public class FoodTruckControllerMockMvcTest {
 	private FoodtruckRepository foodTruckRepo;
 	
 	@MockBean
-	private CuisineRepository cuisineRepo;
+	private TagRepository tagRepo;
 	
 	@MockBean
 	private ReviewRepository reviewRepo;
 	
-	@MockBean
-	private TagRepository tagRepo;
-	
-	
+		
 	@Mock
 	Foodtruck foodTruck;
 	
@@ -52,16 +49,11 @@ public class FoodTruckControllerMockMvcTest {
 	Review anotherReview;
 	
 	@Mock
-	Cuisine cuisine;
-	
-	@Mock
-	Cuisine anotherCuisine;
-	
-	@Mock
 	Tag tag;
 	
 	@Mock
 	Tag anotherTag;
+	
 	
 	
 	@Test
@@ -128,69 +120,24 @@ public class FoodTruckControllerMockMvcTest {
 	}
 	
 	@Test
-	public void shouldRouteToSingleCuisineView() throws Exception{
-		long arbitraryCuisineId = 1;
-		when(cuisineRepo.findById(arbitraryCuisineId)).thenReturn(Optional.of(cuisine));
-		
-		mvc.perform(get("/cuisine?id=1")).andExpect(view().name(is("cuisine")));
-	}
-	
-	@Test
-	public void shouldRouteToSingleCuisine() throws Exception{
-		long arbitraryCuisineId = 1;
-		when(cuisineRepo.findById(arbitraryCuisineId)).thenReturn(Optional.of(cuisine));
-		
-		mvc.perform(get("/cuisine?id=1")).andExpect(status().isOk());
-		
-		}
-	
-	@Test
-	public void shouldNotRouteToSingleCuisine() throws Exception {
-		mvc.perform(get("/cuisine?id=1")).andExpect(status().isNotFound());
-	}
-	
-	@Test
-	public void shouldPutSingleCuisineIntoModel() throws Exception {
-		when(cuisineRepo.findById(1L)).thenReturn(Optional.of(cuisine));
-		mvc.perform(get("/cuisine?id=1")).andExpect(model().attribute("cuisines", is (cuisine)));
-	}
-	
-	@Test
-	public void shouldRouteToAllCuisinesView () throws Exception {
-		mvc.perform(get("/show-all-cuisines")).andExpect(view().name(is("show-all-cuisines")));
-	}
-	@Test
-	public void shouldBeokForAllCuisines () throws Exception {
-		mvc.perform(get("/show-all-cuisines")).andExpect(status().isOk());
-	}
-	
-	@Test
-	public void shouldPutAllCuisinesIntoModel() throws Exception {
-		Collection<Cuisine> allCuisines = Arrays.asList(cuisine, anotherCuisine);
-		when(cuisineRepo.findAll()).thenReturn(allCuisines);
-		
-		mvc.perform(get("/show-all-cuisines")).andExpect(model().attribute("cuisines", is(allCuisines)));
-	}
-	
-	
-	@Test
 	public void shouldRouteToSingleTagView() throws Exception{
 		long arbitraryTagId = 1;
 		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
 		
 		mvc.perform(get("/tag?id=1")).andExpect(view().name(is("tag")));
 	}
-	@Test
 	
-	public void ShouldRouteToSingleTag() throws Exception{
+	@Test
+	public void shouldRouteToSingleTag() throws Exception{
 		long arbitraryTagId = 1;
 		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
 		
 		mvc.perform(get("/tag?id=1")).andExpect(status().isOk());
-	}
+		
+		}
 	
 	@Test
-	public void shouldNotRouteToSingleTag() throws Exception {
+	public void shouldNotRouteToSingleCuisine() throws Exception {
 		mvc.perform(get("/tag?id=1")).andExpect(status().isNotFound());
 	}
 	
@@ -201,7 +148,7 @@ public class FoodTruckControllerMockMvcTest {
 	}
 	
 	@Test
-	public void shouldRouteToAllTagssView () throws Exception {
+	public void shouldRouteToAllTagsView () throws Exception {
 		mvc.perform(get("/show-all-tags")).andExpect(view().name(is("show-all-tags")));
 	}
 	@Test
@@ -216,5 +163,8 @@ public class FoodTruckControllerMockMvcTest {
 		
 		mvc.perform(get("/show-all-tags")).andExpect(model().attribute("tags", is(allTags)));
 	}
+	
+	
+
 	
 }

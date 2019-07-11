@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html xmlns:th = "http://www.thymeleaf.org" lang="en">
+
+    <head>
+        <title>Tags</title>
+    </head>
+    <link rel="stylesheet" type= "text/css" href="./css/styles.css">
+    <body>
+        <h1>List of tags</h1>
+        <div class="mainBody">
+            <div class="navbar">
+                <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+                <a href="http://localhost:8080/show-all-tags">Tags</a>
+                <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+                <div class="dropdown">
+                </div> 
+              </div>
+              <div class="dashed">
+            <div th:each = "tag: ${tags}">
+        <h2 id = "showtags"><a th:href="@{/tag(id=${tag.id})}" th:text="${tag.type}"> </a></h2> 
+     
+            </div>
+            </div>
+        <footer class = "footer">       
+        <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
+        
+        <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
+        </footer>
+
+        
+    </body>
+
+</html>

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 
 body{
-  background-image: url(../images/background.jpg);
+  background-image: url(../images/columbus.jpg);
   background-repeat: no-repeat;
 }
 
@@ -48,11 +48,11 @@ h1{
 
 }
 
-#showcuisines{
+#showtags{
   font-size: 1.5em;
 }
 
-#showcuisines a{
+#showtags a{
   text-decoration: none;
 }
 
@@ -66,7 +66,7 @@ h1{
   text-decoration: none;
 }
 
-#singlefoodtruck a:hover, #showcuisines a:hover, .footer a:hover{
+#singlefoodtruck a:hover, #showtags a:hover, .footer a:hover{
   color: rgb(126, 126, 231);
 }
   /* width */
