@@ -44,6 +44,11 @@ public class Tag {
 	public Collection<Foodtruck> getFoodTruck(){
 		return foodTruck;
 	}
+	
+	public void addFoodTruckToTag(Foodtruck truckToAdd) {
+		foodTruck.add(truckToAdd);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
