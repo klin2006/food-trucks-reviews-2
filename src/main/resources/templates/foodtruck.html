@@ -21,7 +21,7 @@
       
             
         <h2 th:text = "${foodtruck.name}"></h2>
-        <h3 th:each="cuisine: ${foodtruck.cuisines}" th:text="${cuisine.name}"></h3>
+        <h3 th:each="tag: ${foodtruck.tags}" th:text="${tags.name}"></h3>
         <section id = "indivfoodtruck">
         <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
         <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>

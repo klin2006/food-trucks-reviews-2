@@ -12,18 +12,18 @@ public class FoodtruckPopulator implements CommandLineRunner{
 	private FoodtruckRepository foodtruckRepo;
 	
 	@Resource
-	private CuisineRepository cuisineRepo;
+	private TagRepository cuisineRepo;
 	
 	@Resource
 	private ReviewRepository reviewRepo;
-
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Cuisine mexican = cuisineRepo.save(new Cuisine("Mexican"));
-		Cuisine italian = cuisineRepo.save(new Cuisine("Italian"));
-		Cuisine american = cuisineRepo.save(new Cuisine("American"));
-		Cuisine mediterranean = cuisineRepo.save(new Cuisine("Mediterranean"));
+		Tag mexican = cuisineRepo.save(new Tag("Mexican"));
+		Tag italian = cuisineRepo.save(new Tag("Italian"));
+		Tag american = cuisineRepo.save(new Tag("American"));
+		Tag mediterranean = cuisineRepo.save(new Tag("Mediterranean"));
 		
 		
 		Foodtruck mikeys = foodtruckRepo.save(new Foodtruck("Mikey's Late Night Slice", "mikeys", american, italian));
@@ -33,7 +33,7 @@ public class FoodtruckPopulator implements CommandLineRunner{
 		Foodtruck arepa = foodtruckRepo.save(new Foodtruck("La Arepa Picante", "arepa", mexican));
 		Foodtruck mrgrill = foodtruckRepo.save(new Foodtruck("Mr. Grill Tacos", "mrtaco", mexican));
 		
-
+		
 		reviewRepo.save(new Review("It is definitely in the name. Mikey's is one of the best places to get a slice of pizza in the middle of the night. They have a very broad variety of pizzas but they also have the option of buying a pie.", mikeys));
 		reviewRepo.save(new Review("Like pizza? Like places that stay open late? Like little wait time? Mikey's is your place. Nuff said.", mikeys));
 		reviewRepo.save(new Review(" Kabob time is a food truck that is very near Ray Ray's and looks to have a good menu. As I really want to try it when at class but Ray Ray's gets in the way. I look forward to getting the new review up as soon as I can get over my BBQ addiction.", kabob));

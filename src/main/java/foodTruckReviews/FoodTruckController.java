@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class FoodTruckController {
 
 	@Resource
-	CuisineRepository cuisineRepo;
+	TagRepository tagRepo;
 
 	@Resource
 	ReviewRepository reviewRepo;
 
 	@Resource
 	FoodtruckRepository foodTruckRepo;
-
+	
 	@RequestMapping("/foodtruck")
 	public String findOneFoodTruck(@RequestParam(value = "id") Long id, Model model) throws FoodTruckNotFoundException {
 		Optional<Foodtruck> foodTruck = foodTruckRepo.findById(id);
@@ -34,8 +34,6 @@ public class FoodTruckController {
 		}
 		throw new FoodTruckNotFoundException();
 	}
-
-	
 
 	@RequestMapping("/show-all-foodtrucks")
 	public String findAllFoodTrucks(Model model) {
@@ -63,23 +61,25 @@ public class FoodTruckController {
 
 	}
 
-	@RequestMapping("/cuisine")
-	public String findOneCuisine(@RequestParam(value = "id") Long id, Model model) throws CuisineNotFoundException {
-		Optional<Cuisine> cuisine = cuisineRepo.findById(id);
+	@RequestMapping("/tag")
+	public String findOneTag(@RequestParam(value = "id") Long id, Model model) throws TagNotFoundException {
+		Optional<Tag> tag = tagRepo.findById(id);
 
-		if (cuisine.isPresent()) {
-			model.addAttribute("cuisines", cuisine.get());
-			model.addAttribute("foodtrucks", foodTruckRepo.findByCuisinesContains(cuisine.get()));
-      
-			return ("cuisine");
+		if (tag.isPresent()) {
+			model.addAttribute("tags", tag.get());
+			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+
+			return ("tag");
 		}
-		throw new CuisineNotFoundException();
+		throw new TagNotFoundException();
 
 	}
 
-	@RequestMapping("/show-all-cuisines")
-	public String findAllCuisines(Model model) {
-		model.addAttribute("cuisines", cuisineRepo.findAll());
-		return ("show-all-cuisines");
+	@RequestMapping("/show-all-tags")
+	public String findAllTags(Model model) {
+		model.addAttribute("tags", tagRepo.findAll());
+		return ("show-all-tags");
 	}
+
+	
 }
