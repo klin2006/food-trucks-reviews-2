@@ -10,7 +10,7 @@
     <h1>Food Truck</h1>
     <div class="navbar">
             <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
-            <a href="http://localhost:8080/show-all-cuisines">Cuisines</a>
+            <a href="http://localhost:8080/show-all-tags">Tags</a>
             <a href="http://localhost:8080/show-all-reviews">Reviews</a>
             <div class="dropdown">
             </div> 
@@ -21,7 +21,7 @@
       
             
         <h2 th:text = "${foodtruck.name}"></h2>
-        <h3 th:each="tag: ${foodtruck.tags}" th:text="${tags.name}"></h3>
+        <h3 th:each="tag: ${foodtruck.tags}" th:text="${tag.type}"></h3>
         <section id = "indivfoodtruck">
         <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
         <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
@@ -29,7 +29,7 @@
     </div>
     </div>
     <footer class = "footer">    
-  		<a href="http://localhost:8080/show-all-cuisines">List of Cuisines</a>
+  		<a href="http://localhost:8080/show-all-tags">List of Tags</a>
         
         <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
         
