@@ -17,16 +17,29 @@
                 </div> 
               </div>
               <div class="dashed">
-            <div th:each = "tag: ${tags}">
-        <h2 id = "showtags"><a th:href="@{/tag(id=${tag.id})}" th:text="${tag.type}"> </a></h2> 
-     
-            </div>
+        <section class = "add-tag">
+            <input type = "text" placeholder = "Add a Tag" />
+            <button>Submit Tag</button> 
+        </section>
+        <section class = "tags-list">
+                <ul>
+                        <li th:if="${tags.size() ==0}"> Currently no tags...please add one</li>
+                        <li th:if="${tags.size()!=0}" th:each = "tag: ${tags}">
+                        <input class = "tagId" name = "id" type = "hidden" th:value = "${tag.id}"/>
+                        <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.name}"></a>
+                       <button class = "x">&times;</button>
+                        </li>  
+                        </ul>
+        </section>
             </div>
         <footer class = "footer">       
         <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
         
         <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
         </footer>
+
+        <script src = "./js/server-requests.js"></script>
+
 
         
     </body>
