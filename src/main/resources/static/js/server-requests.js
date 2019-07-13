@@ -16,7 +16,21 @@ tagAddButton.addEventListener('click', function(){
     tagAddInput.value = "";
 })
 
+tagsList.addEventListener('click', function(event){
+    if(event.target.classList.contains('x')){
+    let tagId = event.target.previousElementSibling.previousElementSibling.value;
+      console.log(tagId);
+      removeTag(tagId);
+    }
+})
+
+
 function postTags(tagType){
     xhr.open('POST', '/tags/' + tagType, true);
+    xhr.send();
+}
+
+function removeTag(id){
+    xhr.open('POST', '/tags/remove/' + id, true);
     xhr.send();
 }

@@ -23,13 +23,12 @@
         </section>
         <section class = "tags-list">
                 <ul>
-                        <li th:if="${tags.size() ==0}"> Currently no tags...please add one</li>
-                        <li th:if="${tags.size()!=0}" th:each = "tag: ${tags}">
+                        <li th:each = "tag: ${tags}">
                         <input class = "tagId" name = "id" type = "hidden" th:value = "${tag.id}"/>
                         <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.name}"></a>
-                       <button class = "x">&times;</button>
+                        <button class = "x">&times;</button>
                         </li>  
-                        </ul>
+                    </ul>      
         </section>
             </div>
         <footer class = "footer">       
