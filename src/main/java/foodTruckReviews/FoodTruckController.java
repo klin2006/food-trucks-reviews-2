@@ -9,21 +9,23 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class FoodTruckController {
 
 	@Resource
-	CuisineRepository cuisineRepo;
+	TagRepository tagRepo;
 
 	@Resource
 	ReviewRepository reviewRepo;
 
 	@Resource
 	FoodtruckRepository foodTruckRepo;
-
+	
 	@RequestMapping("/foodtruck")
 	public String findOneFoodTruck(@RequestParam(value = "id") Long id, Model model) throws FoodTruckNotFoundException {
 		Optional<Foodtruck> foodTruck = foodTruckRepo.findById(id);
@@ -34,8 +36,6 @@ public class FoodTruckController {
 		}
 		throw new FoodTruckNotFoundException();
 	}
-
-	
 
 	@RequestMapping("/show-all-foodtrucks")
 	public String findAllFoodTrucks(Model model) {
@@ -63,23 +63,54 @@ public class FoodTruckController {
 
 	}
 
-	@RequestMapping("/cuisine")
-	public String findOneCuisine(@RequestParam(value = "id") Long id, Model model) throws CuisineNotFoundException {
-		Optional<Cuisine> cuisine = cuisineRepo.findById(id);
+	@RequestMapping("/tag")
+	public String findOneTag(@RequestParam(value = "id") Long id, Model model) throws TagNotFoundException {
+		Optional<Tag> tag = tagRepo.findById(id);
 
-		if (cuisine.isPresent()) {
-			model.addAttribute("cuisines", cuisine.get());
-			model.addAttribute("foodtrucks", foodTruckRepo.findByCuisinesContains(cuisine.get()));
-      
-			return ("cuisine");
+		if (tag.isPresent()) {
+			model.addAttribute("tags", tag.get());
+//			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+			model.addAttribute("foodtrucks", tag.get().getFoodtrucks());
+
+			return ("tag");
 		}
-		throw new CuisineNotFoundException();
+		throw new TagNotFoundException();
 
 	}
 
-	@RequestMapping("/show-all-cuisines")
-	public String findAllCuisines(Model model) {
-		model.addAttribute("cuisines", cuisineRepo.findAll());
-		return ("show-all-cuisines");
+	@RequestMapping("/show-all-tags")
+	public String findAllTags(Model model) {
+		model.addAttribute("tags", tagRepo.findAll());
+		return ("show-all-tags");
 	}
-}
+	
+	@RequestMapping(path="/tags/{tagType}", method=RequestMethod.POST)
+	public String addTag(@PathVariable String tagType, Model model) {
+		Tag tagToAdd = tagRepo.findByType(tagType);
+		if(tagToAdd == null) {
+			tagToAdd=new Tag(tagType);
+			tagRepo.save(tagToAdd);		
+		}
+		model.addAttribute("tags", tagRepo.findAll());
+		return "partial/tags-list-added";
+	}
+	
+	@RequestMapping(path ="/tags/remove/{id}", method= RequestMethod.POST)
+	public String removeTag(@PathVariable Long id, Model model) {
+		Optional<Tag> tagToRemoveResult = tagRepo.findById(id);
+		Tag tagToRemove = tagToRemoveResult.get();
+		
+		for(Foodtruck foodtruck: tagToRemove.getFoodtrucks()) {
+			foodtruck.removeTag(tagToRemove);
+			foodTruckRepo.save(foodtruck);
+		}
+		
+		
+		tagRepo.delete(tagToRemove);
+		model.addAttribute("tags", tagRepo.findAll());
+		return "partial/tags-list-removed";
+	}
+	
+	
+}	
+

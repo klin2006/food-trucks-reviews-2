@@ -11,23 +11,22 @@ import javax.persistence.ManyToMany;
 
 @Entity
 
-public class Cuisine {
+public class Tag {
 	@Id
 	@GeneratedValue
 	private long id;
 	
 	private String type;
-	
 
-	@ManyToMany(mappedBy = "cuisines")
+	@ManyToMany(mappedBy = "tags")
 	private Collection<Foodtruck>foodtrucks;
 
 	
-	public Cuisine() {
+	public Tag() {
 		
 	}
 
-	public Cuisine(String type) {
+	public Tag(String type) {
 		this.type = type;
 	}
 	
@@ -47,6 +46,7 @@ public class Cuisine {
 		return foodtrucks;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -63,7 +63,7 @@ public class Cuisine {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cuisine other = (Cuisine) obj;
+		Tag other = (Tag) obj;
 		if (id != other.id)
 			return false;
 		return true;

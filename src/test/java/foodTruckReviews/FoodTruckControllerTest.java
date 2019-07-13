@@ -15,11 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
 
-
-
-
-
-
 public class FoodTruckControllerTest {
 	
 	@InjectMocks
@@ -44,13 +39,13 @@ public class FoodTruckControllerTest {
 	private ReviewRepository reviewRepo;
 	
 	@Mock
-	private Cuisine cuisine;
+	private Tag tag;
 	
 	@Mock
-	private Cuisine anotherCuisine;
+	private Tag anotherTag;
 	
 	@Mock
-	private CuisineRepository cuisineRepo;
+	private TagRepository tagRepo;
 	
 	@Mock
 	private Model model;
@@ -96,5 +91,30 @@ public class FoodTruckControllerTest {
 		underTest.findAllReviews(model);
 		verify(model).addAttribute("reviews", allreviews);
 	}
+	
+	@Test
+	public void shouldAddSingleTagToModel() throws TagNotFoundException {
+		long arbitraryTagId = 1;
+		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
+		
+		underTest.findOneTag(arbitraryTagId, model);
+		verify(model).addAttribute("tags", tag);
+	}
+	
+	@Test
+	public void shouldAddAllTagsModel() {
+		Collection<Tag> allTags = Arrays.asList(tag, anotherTag);
+		when(tagRepo.findAll()).thenReturn(allTags);
+		
+		underTest.findAllTags(model);
+		verify(model).addAttribute("tags", allTags);
+	}
+	
+	@Test
+	public void shouldAddAdditionalTagToFoodtruck() {
+		
+	}
+	
+	
 }
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html xmlns:th = "http://www.thymeleaf.org" lang="en">
+
+    <head>
+        <title>Tags</title>
+    </head>
+    <link rel="stylesheet" type= "text/css" href="./css/styles.css">
+    <body>
+        <h1>List of tags</h1>
+        <div class="mainBody">
+            <div class="navbar">
+                <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+                <a href="http://localhost:8080/show-all-tags">Tags</a>
+                <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+                <div class="dropdown">
+                </div> 
+              </div>
+              <div class="dashed">
+        <section class = "add-tag">
+            <input type = "text" placeholder = "Add a Tag" />
+            <button>Submit Tag</button> 
+        </section>
+        <section class = "tags-list">
+                <ul>
+                        <li th:each = "tag: ${tags}">
+                        <input class = "tagId" name = "id" type = "hidden" th:value = "${tag.id}"/>
+                        <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.name}"></a>
+                        <button class = "x">&times;</button>
+                        </li>  
+                    </ul>      
+        </section>
+            </div>
+        <footer class = "footer">       
+        <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
+        
+        <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
+        </footer>
+
+        <script src = "./js/server-requests.js"></script>
+
+
+        
+    </body>
+
+</html>
