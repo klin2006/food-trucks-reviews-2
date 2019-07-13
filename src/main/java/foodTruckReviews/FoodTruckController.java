@@ -69,7 +69,8 @@ public class FoodTruckController {
 
 		if (tag.isPresent()) {
 			model.addAttribute("tags", tag.get());
-			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+//			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+			model.addAttribute("foodtrucks", tag.get().getFoodtrucks());
 
 			return ("tag");
 		}
@@ -91,7 +92,7 @@ public class FoodTruckController {
 			tagRepo.save(tagToAdd);		
 		}
 		model.addAttribute("tags", tagRepo.findAll());
-		return "partials/tags-list-added";
+		return "partial/tags-list-added";
 	}
 	
 	@RequestMapping(path ="/tags/remove/{id}", method= RequestMethod.POST)
@@ -107,7 +108,7 @@ public class FoodTruckController {
 		
 		tagRepo.delete(tagToRemove);
 		model.addAttribute("tags", tagRepo.findAll());
-		return "partials/tags-list-removed";
+		return "partial/tags-list-removed";
 	}
 	
 	

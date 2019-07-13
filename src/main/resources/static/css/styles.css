@@ -157,6 +157,8 @@ h1{
     margin: auto auto;
     max-width:  1000px;
     position: relative;
+    /* transform: translateX(-50%);
+    -webkit-transform: translateX(-50%); */
   }
 
   .pics{
