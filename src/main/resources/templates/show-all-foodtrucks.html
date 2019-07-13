@@ -6,9 +6,26 @@
 </head>
 
 <body>
-        <h1>Food Truck Reviews</h1>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+        <a href="http://localhost:8080/show-all-tags">Tags</a>
+        <button class="dropdown-btn">Food Trucks 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+              <div th:each="foodtruck: ${foodtrucks}">
+                  <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
+              </div>
+          </div>
+        <a href="#">Contact</a>
+      </div>
 
-    <div class="mainBody">
+      <div id="main">
+          <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Food Truck Reviews</span>
+        </div>
+
+    <!-- <div class="mainBody">
     <div class="navbar">
             <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
             <a href="http://localhost:8080/show-all-tags">Tags</a>
@@ -23,13 +40,13 @@
                     </div>
               </div>
             </div> 
-          </div>
-          <div class="dashed">
-              <h2 id="aboutUsHeader">About The Reviewers</h2>
-              <p id="aboutUsP">We're just a bunch of normal people from Columbus, Ohio who love to eat and love food trucks. We don't prentend to be experts in any way and probably aren't qualified to have an opinion on this but like most people we do. If for some reason you disagree with one of our review then you'll have to keep that to yourself because we're just normal people and this isn't our day job. Fortunately the reviews are written so we can't mis-pronounce anything we're reviewing. Hope you enjoy the reviews and if not, like I said, this isn't our day job. </p>
-          
-
-        <div id="images">         
+          </div> -->
+          <div class="center">
+              <h1></h1>
+                  <h2 id="aboutUsHeader">About The Reviewers</h2>
+                      <p id="aboutUsP">We're just a bunch of normal people from Columbus, Ohio who love to eat and love food trucks. We don't prentend to be experts in any way and probably aren't qualified to have an opinion on this but like most people we do. If for some reason you disagree with one of our review then you'll have to keep that to yourself because we're just normal people and this isn't our day job. Fortunately the reviews are written so we can't mis-pronounce anything we're reviewing. Hope you enjoy the reviews and if not, like I said, this isn't our day job. </p>
+    
+          <div id="images">         
                   
                    <div class = "slideshow fade"> 
                    <article class = "mySlides">
@@ -82,14 +99,14 @@
 
                 </div>
                 <br><br><br><br>
-        <footer class = "footer">
+        <!-- <footer class = "footer">
           <a href="http://localhost:8080/show-all-tags">List of Tags</a>
         
           <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
  
           <a href="http://localhost:8080/show-all-foodtrucks">Return To Home</a>
         </footer>
-      </div>
+      </div> -->
       <script src="./js/app.js"></script>
 </body>
 </html>
