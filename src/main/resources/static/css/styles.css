@@ -52,6 +52,7 @@ h1{
   text-align: center; 
   grid-gap: 1em;
   margin: 3em;
+  background: #ffffff;
 
 }
 
@@ -65,7 +66,7 @@ h1{
 
 #singlefoodtruck{
   font-size: 1.5em;
-  color: rgb(104, 9, 104)
+  color: #FFFFFF;
 }
 
 
@@ -74,7 +75,7 @@ h1{
 }
 
 #singlefoodtruck a:hover, #showcuisines a:hover, .footer a:hover{
-  color: rgb(126, 126, 231);
+  color: #ffffff;
 }
   /* width */
   ::-webkit-scrollbar {
@@ -121,7 +122,7 @@ h1{
 
   #foodtruck, .dashed{
     max-width: 1000px;
-    background: #A7D2CB;
+    background: #FFFFFF;
     font-family: 'Raleway', sans-serif;
   }
 
