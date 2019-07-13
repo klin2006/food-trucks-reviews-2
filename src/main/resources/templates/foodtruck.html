@@ -5,36 +5,37 @@
 </head>
 <link rel="stylesheet" href="./css/styles.css">
 <body>
-S
-  <div class="mainBody">    
-    <h1>Food Truck</h1>
-    <div class="navbar">
-            <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
-            <a href="http://localhost:8080/show-all-tags">Tags</a>
-            <a href="http://localhost:8080/show-all-reviews">Reviews</a>
-            <div class="dropdown">
-            </div> 
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+        <a href="http://localhost:8080/show-all-tags">Tags</a>
+        <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+        <button class="dropdown-btn">Food Trucks 
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+              <div th:each="foodtruck: ${foodtrucks}">
+                  <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
+              </div>
           </div>
-          <div class="dashed">
+      </div>
+      <div id="main">
+          <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Food Truck Reviews</span>
+        </div>
 
-    <div id="foodtruck" th:each = "foodtruck: ${foodtrucks}">
-      
-            
-        <h2 th:text = "${foodtruck.name}"></h2>
-        <h3 th:each="tag: ${foodtruck.tags}" th:text="${tag.type}"></h3>
-        <section id = "indivfoodtruck">
-        <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
-        <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
-    </section>
-    </div>
-    </div>
-    <footer class = "footer">    
-  		<a href="http://localhost:8080/show-all-tags">List of Tags</a>
-        
-        <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
-        
-        <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
-    </footer>
-   </div>
+         <div class="center">
+            <div id="foodtruck" th:each = "foodtruck: ${foodtrucks}">
+                <h2 th:text = "${foodtruck.name}"></h2>
+                <h3 th:each="tag: ${foodtruck.tags}" th:text="${tag.type}"></h3>
+                <section id = "indivfoodtruck">
+                <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
+                <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
+              </section>
+              </div>
+	 		    </div>	
+       </div>
+        <footer class = "footer"> 
+        </footer>
+      <script src="./js/app.js"></script>
 </body>
 </html>
