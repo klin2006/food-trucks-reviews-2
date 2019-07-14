@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping	("/tags")
+@RequestMapping	("/comments")
 
 public class CommentRestController {
 	@Resource
@@ -29,9 +29,9 @@ public class CommentRestController {
 		return commentRepo.findById(id);
 	}
 	
-	@RequestMapping("/{commentComment}/foodtrucks")
-	public Collection<Comment> findAllCommentsByReview(@PathVariable(value = "commentComment") String commentComment){
-	Comment comment = commentRepo.findByTypeIgnoreCaseLike(commentComment);
+	@RequestMapping("/{commentComment}/reviews")
+	public Collection<Review> findAllCommentsByReview(@PathVariable(value = "commentComment") String commentComment){
+	Comment comment = commentRepo.findByCommentIgnoreCaseLike(commentComment);
 		return reviewRepo.findByCommentsContains(comment); 
 	}
 }
