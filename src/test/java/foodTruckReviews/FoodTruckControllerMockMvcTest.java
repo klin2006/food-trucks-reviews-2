@@ -35,6 +35,8 @@ public class FoodTruckControllerMockMvcTest {
 	@MockBean
 	private ReviewRepository reviewRepo;
 	
+	@MockBean
+	private CommentRepository commentRepo;
 		
 	@Mock
 	Foodtruck foodTruck;
@@ -53,6 +55,12 @@ public class FoodTruckControllerMockMvcTest {
 	
 	@Mock
 	Tag anotherTag;
+	
+	@Mock
+	Comment comment;
+	
+	@Mock
+	Comment anotherComment;
 	
 	
 	
@@ -137,7 +145,7 @@ public class FoodTruckControllerMockMvcTest {
 		}
 	
 	@Test
-	public void shouldNotRouteToSingleCuisine() throws Exception {
+	public void shouldNotRouteToSingleTag() throws Exception {
 		mvc.perform(get("/tag?id=1")).andExpect(status().isNotFound());
 	}
 	
@@ -164,7 +172,51 @@ public class FoodTruckControllerMockMvcTest {
 		mvc.perform(get("/show-all-tags")).andExpect(model().attribute("tags", is(allTags)));
 	}
 	
+	@Test
+	public void shouldRouteToSingleCommentView() throws Exception {
+		long arbitraryCommentId = 1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		mvc.perform(get("/comment?id=1")).andExpect(view().name(is("comment")));
 	
-
+	}
 	
+	@Test
+	public void shouldRouteToSingleComment() throws Exception {
+		long arbitraryCommentId =1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		mvc.perform(get("/comment?id=1")).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void shouldNotRouteToSingleComment() throws Exception {
+		mvc.perform(get("/comment?id=1")).andExpect(status().isNotFound());
+		
+	}
+	
+	@Test
+	public void shouldPutSingleCommentIntoModel() throws Exception {
+		when(commentRepo.findById(1L)).thenReturn(Optional.of(comment));
+		mvc.perform(get("/comment?id=1")).andExpect(model().attribute("comments",  is(comment)));
+	}
+	
+	@Test
+	public void shouldRouteToAllCommentsView() throws Exception {
+		mvc.perform(get("/show-all-comments")).andExpect(view().name(is("show-all-comments")));
+	}
+	
+	@Test
+	public void shouldBeOkForAllComments() throws Exception {
+		mvc.perform(get("/show-all-comments")).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void shouldPutAllCommentsIntoModel() throws Exception {
+		Collection<Comment> allComments = Arrays.asList(comment, anotherComment);
+		when(commentRepo.findAll()).thenReturn(allComments);
+		
+		mvc.perform(get("/show-all-comments")).andExpect(model().attribute("comments", is(allComments)));
+	}
 }
+
