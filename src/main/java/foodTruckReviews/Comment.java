@@ -1,67 +1,50 @@
 package foodTruckReviews;
 
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.GeneratedValue; 
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Review {
+public class Comment {
 
-
-	@Id
+	
 	@GeneratedValue
+	@Id
 	private long id;
 	
-	private String review;
+	private String comment;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy ="review")
-	private Collection<Comment> comments;
-	
-	public Review() {
-	}
-	
-	@JsonIgnore
 	@ManyToOne
-	private Foodtruck foodtruck;
+	private Review review;
 
-	public Review(String review, Foodtruck foodtruck) {
+	
+
+	public Comment(String comment, Review review) {
+		this.comment = comment;
 		this.review = review;
-		this.foodtruck = foodtruck;
+	}
+	
+	public Comment() {
 		
-		
-	
 	}
-	
-	public String getReview() {
-		return review;
-	}
-	
-	public String getName() {
-		return review.toString();
-	}
-	
+
 	public long getId() {
+		
 		return id;
 	}
-	
-	public Collection<Comment> getComments() {
+
+	public String getComment() {
 		
-		return comments;
+		return comment;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -69,8 +52,7 @@ public class Review {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
-	
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -79,11 +61,10 @@ public class Review {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Review other = (Review) obj;
+		Comment other = (Comment) obj;
 		if (id != other.id)
 			return false;
 		return true;
 	}
-
 
 }

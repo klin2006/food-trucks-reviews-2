@@ -50,6 +50,16 @@ public class FoodTruckControllerTest {
 	@Mock
 	private Model model;
 	
+	@Mock
+	private CommentRepository commentRepo;
+	
+	@Mock
+	private Comment comment;
+	
+	@Mock
+	private Comment anotherComment;
+	
+	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -115,6 +125,22 @@ public class FoodTruckControllerTest {
 		
 	}
 	
+	@Test
+	public void shouldAddSingleCommentToModel() throws CommentNotFoundException {
+		long arbitraryCommentId = 1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		underTest.findOneComment(arbitraryCommentId, model);
+		verify(model).addAttribute("comments", comment);
+	}
 	
+	@Test
+	public void shouldAddAllCommentsToModel() {
+		Collection<Comment> allComments = Arrays.asList(comment, anotherComment);
+		when(commentRepo.findAll()).thenReturn(allComments);
+		
+		underTest.findAllComments(model);
+		verify(model).addAttribute("comments", allComments);
+	}
 }
 
