@@ -1,28 +1,37 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 
 body{
-  background-image: url(../images/columbus.jpg);
+  
+  background-image: url(../images/leftside.jpg);
+
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: right;
+  font-family: 'Raleway', sans-serif;
 }
 
 h1{
   max-width: 1000px;
-  background: #A7D2CB;
+  background: #FFFFFF;
     font-family: 'Raleway', sans-serif;
     margin: auto auto;
 }
 
-.mainBody {
+/* .mainBody {
   max-width: 1000px;
   background: #A7D2CB;
     font-family: 'Raleway', sans-serif;
     margin: auto auto;
     min-height: 450px;
-}
+} */
 
 
-.dashed {
-    border: 2px dashed #F2D388;
+.center {
+    margin: auto;
+    width: 75%;
+    border: 3px solid #000000;
+    padding: 10px;
+    background: #FFFFFF;
 }
 
 .footer{
@@ -45,6 +54,7 @@ h1{
   text-align: center; 
   grid-gap: 1em;
   margin: 3em;
+  background: #ffffff;
 
 }
 
@@ -58,7 +68,7 @@ h1{
 
 #singlefoodtruck{
   font-size: 1.5em;
-  color: rgb(104, 9, 104)
+  color: #FFFFFF;
 }
 
 
@@ -66,8 +76,8 @@ h1{
   text-decoration: none;
 }
 
-#singlefoodtruck a:hover, #showtags a:hover, .footer a:hover{
-  color: rgb(126, 126, 231);
+#singlefoodtruck a:hover, #showcuisines a:hover, .footer a:hover{
+  color: #ffffff;
 }
   /* width */
   ::-webkit-scrollbar {
@@ -91,67 +101,6 @@ h1{
     background: #C98478; 
   }
 
-  .navbar {
-    overflow: hidden;
-    background-color: #F2D388;
-  }
-  
-  .navbar a {
-    float: left;
-    color: rgb(119, 98, 106);
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  .dropdown {
-    float: left;
-    overflow: hidden;
-  }
-  
-  .dropdown .dropbtn {
-    border: none;
-    outline: none;
-    color: rgb(119, 98, 106);
-    font-size: 20px;
-    font-weight: bold;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-  }
-  
-  .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #A7D2CB;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #F2D388;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px #874C62;
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
 
   #images {
     margin: auto auto;
@@ -177,7 +126,7 @@ h1{
 
   #foodtruck, .dashed{
     max-width: 1000px;
-    background: #A7D2CB;
+    background: #FFFFFF;
     font-family: 'Raleway', sans-serif;
   }
 
@@ -251,6 +200,7 @@ h1{
     font-size: 30px;
     padding: 10px;
     position: relative;
+    font-family: inherit;
 }
 
 #slides{
@@ -260,3 +210,81 @@ h1{
     z-index: 1;
 } 
 
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  font-family: inherit;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: inherit;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #ff6600;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 20px;
+  margin-left: 50px;
+}
+
+.dropdown-btn {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  font-family: inherit;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+.active {
+  background-color: black;
+  color: #ff6600;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 10px;
+  font-family: inherit;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
