@@ -1,14 +1,17 @@
 package foodTruckReviews;
 
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+
+
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -24,6 +27,7 @@ public class Review {
 	@GeneratedValue
 	private long id;
 	
+	@Lob
 	private String review;
 	
 	@JsonIgnore

@@ -95,5 +95,8 @@ public class Foodtruck {
 		return true;
 	}
 
+	public void removeTag(Tag tagToRemove) {
+		tags.remove(tagToRemove);
+	}
 
 }
