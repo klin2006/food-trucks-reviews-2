@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
-	Collection<Review> findByCommentsContains(Comment comment);
+	Collection<Comment> findByCommentsContains(Comment comment);
 
 	Collection<Review> findByCommentsId(long commentId);
 

@@ -8,4 +8,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 
 	Collection<Comment> findByReviewContains(Review review);
 
+	Comment findByTypeIgnoreCaseLike(String commentComment);
+
 }
