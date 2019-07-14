@@ -1,8 +1,10 @@
 package foodTruckReviews;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import static java.lang.String.format;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,19 +12,24 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 
 public class Foodtruck {
 	@Id
 	@GeneratedValue
 	private long id;
+
 	
 	private String name;
 	private String map;
 	
+	@JsonIgnore
 	@ManyToMany
 	private Collection<Tag> tags;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "foodtruck")
 	private Collection<Review> reviews;
 	
@@ -58,6 +65,14 @@ public class Foodtruck {
 		return reviews;
 	}
 	
+	public Collection<String>getTagsUrls(){
+		Collection<String> urls = new ArrayList<>();
+			for(Tag t: tags) {
+				urls.add(format("/foodtrucks/%d/tags/%s", this.getId(), t.getType()));
+			}
+			return urls;
+		}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,5 +95,8 @@ public class Foodtruck {
 		return true;
 	}
 
+	public void removeTag(Tag tagToRemove) {
+		tags.remove(tagToRemove);
+	}
 
 }

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 
 body{
+  
   background-image: url(../images/leftside.jpg);
+
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: right;
@@ -56,11 +58,11 @@ h1{
 
 }
 
-#showcuisines{
+#showtags{
   font-size: 1.5em;
 }
 
-#showcuisines a{
+#showtags a{
   text-decoration: none;
 }
 
@@ -104,6 +106,8 @@ h1{
     margin: auto auto;
     max-width:  1000px;
     position: relative;
+    /* transform: translateX(-50%);
+    -webkit-transform: translateX(-50%); */
   }
 
   .pics{

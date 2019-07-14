@@ -110,6 +110,11 @@ public class FoodTruckControllerTest {
 		verify(model).addAttribute("tags", allTags);
 	}
 	
+	@Test
+	public void shouldAddAdditionalTagToFoodtruck() {
+		
+	}
+	
 	
 }
 

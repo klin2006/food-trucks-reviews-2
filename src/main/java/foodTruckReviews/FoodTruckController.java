@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -67,7 +69,8 @@ public class FoodTruckController {
 
 		if (tag.isPresent()) {
 			model.addAttribute("tags", tag.get());
-			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+//			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+			model.addAttribute("foodtrucks", tag.get().getFoodtrucks());
 
 			return ("tag");
 		}
@@ -80,6 +83,34 @@ public class FoodTruckController {
 		model.addAttribute("tags", tagRepo.findAll());
 		return ("show-all-tags");
 	}
-
 	
-}
+	@RequestMapping(path="/tags/{tagType}", method=RequestMethod.POST)
+	public String addTag(@PathVariable String tagType, Model model) {
+		Tag tagToAdd = tagRepo.findByType(tagType);
+		if(tagToAdd == null) {
+			tagToAdd=new Tag(tagType);
+			tagRepo.save(tagToAdd);		
+		}
+		model.addAttribute("tags", tagRepo.findAll());
+		return "partial/tags-list-added";
+	}
+	
+	@RequestMapping(path ="/tags/remove/{id}", method= RequestMethod.POST)
+	public String removeTag(@PathVariable Long id, Model model) {
+		Optional<Tag> tagToRemoveResult = tagRepo.findById(id);
+		Tag tagToRemove = tagToRemoveResult.get();
+		
+		for(Foodtruck foodtruck: tagToRemove.getFoodtrucks()) {
+			foodtruck.removeTag(tagToRemove);
+			foodTruckRepo.save(foodtruck);
+		}
+		
+		
+		tagRepo.delete(tagToRemove);
+		model.addAttribute("tags", tagRepo.findAll());
+		return "partial/tags-list-removed";
+	}
+	
+	
+}	
+
