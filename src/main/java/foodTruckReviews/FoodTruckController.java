@@ -156,7 +156,7 @@ public class FoodTruckController {
 		newReview = new Review(reviewReview, foodtruck);
 		reviewRepo.save(newReview);}
 		
-		return "redirect:/show-all-reviews";
+		return "redirect:/show-all-foodtrucks";
 	}
 	 
 
