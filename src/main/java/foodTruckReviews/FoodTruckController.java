@@ -151,7 +151,49 @@ public class FoodTruckController {
 		
 	}
 	
+	@RequestMapping(path="/comments/{commentComment}", method=RequestMethod.POST)
+	public String addComment(@PathVariable String commentComment, String reviewReview, Model model) {
+		Review review1 = reviewRepo.findByReview(reviewReview);
+				
+		Comment commentToAdd = commentRepo.findByComment(commentComment);
+		if(commentToAdd == null) {
+			commentToAdd=new Comment(commentComment, review1);
+			commentRepo.save(commentToAdd);		
+		}
+		model.addAttribute("comment", tagRepo.findAll());
+		return "partial/comments-list-added";
+	}
 	
+	@RequestMapping(path ="/comments/remove/{id}", method= RequestMethod.POST)
+	public String removeComment(@PathVariable Long id, Model model) {
+		Optional<Comment> commentToRemoveResult = commentRepo.findById(id);
+		Comment commentToRemove = commentToRemoveResult.get();
+		
+		
+		
+		commentRepo.delete(commentToRemove);
+		model.addAttribute("tags", tagRepo.findAll());
+		return "partial/tags-list-removed";
+	}
+
+
+	@RequestMapping(path ="/comments/{commentComment}/{id}", method= RequestMethod.POST)
+	public void addCommentToReview(String commentComment, String reviewReview, long id) {
+		Review review1 = reviewRepo.findByReview(reviewReview);
+		
+		Comment commentToAdd = commentRepo.findByComment(commentComment);
+		if(commentToAdd == null) {
+			Comment comment = 
+			commentToAdd = new Comment(commentComment, review1);
+		}
+		Review reviewToAddTo = reviewRepo.findById(id).get();
+		
+		reviewToAddTo.addComment(commentToAdd);
+		reviewRepo.save(reviewToAddTo);
+		
+
+		
+	}
 
 }
 

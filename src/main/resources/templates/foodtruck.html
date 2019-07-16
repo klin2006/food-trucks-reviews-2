@@ -31,24 +31,13 @@
                 
                 <section id = "indivfoodtruck">
 
-                  <section id="individual review">
+                  
                   <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
                
                 
-               
-                
-                <section class= "add-comment" method="POST">
                   
-                      <input type="text" placeholder= "add your comment" />
-                      <button>Submit Comment</button>
-                </section>
+                  
                 
-                  <!-- <ul th:each="comment: ${comment.review}">
-                    <input class= "commentId" type="hidden" th:value=${comment.id}/>
-                    <a th:text= "$comment.comment}"></a>
-                    <button class="x">delete</button>
-                  </ul> -->
-                </section>
                 </section>
                 
                 
@@ -61,12 +50,31 @@
                   <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.type}"></a>
                   <button class = "x">&times;</button>
                 </ul>
+
+                <div th:each="review: ${reviews}">
+                <ul th:each="review: ${reviews.comments}">
+                  <input class= "commentId" type="hidden" th:value=${comment.id}/>
+                  <p th:each= "review: ${review.comments}" th:text= "${comment.comment}"></p>
+                  <button class="x">delete</button>
+                </ul>
+                
               </div>
-	 		    </div>
-  
+            
+              <section class= "add-comment" method="POST">
+                
+                    <input type="text" placeholder= "add your comment" />
+                    <button>Submit Comment</button>
+              </section>
+
+
+
+              </div>
+           </div>
+           
+           
        </div>
-        <footer class = "footer"> 
+       <footer class = "footer"> 
         </footer>
       <script src="./js/server-requests.js"></script>
-</body>
+    </body>
 </html>
