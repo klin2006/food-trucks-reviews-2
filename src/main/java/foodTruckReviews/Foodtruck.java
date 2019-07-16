@@ -99,4 +99,9 @@ public class Foodtruck {
 		tags.remove(tagToRemove);
 	}
 
+	public void addTag(Tag tagToAdd) {
+		tags.add(tagToAdd);
+		
+	}
+
 }

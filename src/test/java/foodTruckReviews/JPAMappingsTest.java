@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.greaterThan;
 
@@ -133,7 +134,6 @@ public class JPAMappingsTest {
 		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
 
 		long cuisineId = mediterranean.getId();
-
 		
 		Foodtruck foodtruck3 = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3", mediterranean));
 		Foodtruck foodtruck4 = foodtruckRepo.save(new Foodtruck("Kabob Time", "map4", mediterranean));
@@ -164,6 +164,39 @@ public class JPAMappingsTest {
 	}
 	
 	@Test
+
+	public void shouldSaveTagToFoodtruck() {
+		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
+		long cuisineId = mediterranean.getId();
+		
+		Foodtruck foodtruck3 = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3", mediterranean));
+		
+		Tag american = tagRepo.save(new Tag("american"));
+		long tagId = american.getId();
+
+		foodtruck3.addTag(american);
+		foodtruckRepo.save(foodtruck3);
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Foodtruck>result = foodtruckRepo.findById(foodtruck3.getId());
+		Foodtruck retrieveFoodtruck = result.get();
+		
+		assertThat(retrieveFoodtruck.getTags(), containsInAnyOrder(american, mediterranean));
+		
+		Optional<Tag>result2 = tagRepo.findById(american.getId());
+		Tag retrieveTag = result2.get();
+		assertThat(retrieveTag.getFoodtrucks(), contains(foodtruck3));
+		
+		
+		
+	
+		
+		
+		
+	}
+
 	public void shouldSaveAndLoadComment() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
 		Review review = reviewRepo.save(new Review("review", foodtruck));

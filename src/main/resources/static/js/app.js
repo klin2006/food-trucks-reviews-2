@@ -18,6 +18,7 @@ for (i = 0; i < dropdown.length; i++) {
   this.classList.toggle("active");
   var dropdownContent = this.nextElementSibling;
   if (dropdownContent.style.display === "block") {
+<<<<<<< HEAD
       dropdownContent.style.display = "none";
     } else {
         dropdownContent.style.display = "block";
@@ -43,3 +44,11 @@ function showSlides(n){
     slides[slideIndex-1].style.display = "block";
 }
 }
+=======
+  dropdownContent.style.display = "none";
+  } else {
+  dropdownContent.style.display = "block";
+  }
+  });
+}
+>>>>>>> d6f66fa0bf117a18e7e4dcd77669505011feabc7
