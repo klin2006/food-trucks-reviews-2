@@ -44,6 +44,10 @@ public class Comment {
 		
 		return comment;
 	}
+	
+	public Review getReview() {
+		return review;
+	}
 
 	@Override
 	public int hashCode() {

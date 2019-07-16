@@ -90,5 +90,15 @@ public class Review {
 		return true;
 	}
 
+	public void removeComment(Comment commentToRemove) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addComment(Comment commentToAdd) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
