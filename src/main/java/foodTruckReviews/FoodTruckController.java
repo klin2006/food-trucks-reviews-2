@@ -130,10 +130,6 @@ public class FoodTruckController {
 		
 	}
 	
-	
-}	
-
-
 
 	@RequestMapping("/comment")
 	public String findOneComment(@RequestParam(value="id") Long id, Model model) throws CommentNotFoundException {

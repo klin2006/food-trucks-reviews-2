@@ -164,7 +164,7 @@ public class JPAMappingsTest {
 	}
 	
 	@Test
-<<<<<<< HEAD
+
 	public void shouldSaveTagToFoodtruck() {
 		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
 		long cuisineId = mediterranean.getId();
@@ -196,7 +196,7 @@ public class JPAMappingsTest {
 		
 		
 	}
-=======
+
 	public void shouldSaveAndLoadComment() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
 		Review review = reviewRepo.save(new Review("review", foodtruck));
@@ -278,5 +278,4 @@ public class JPAMappingsTest {
 	}
 	
 	
->>>>>>> 65c8d53ade28a90cb84a55584e4013559b66a737
 }	
