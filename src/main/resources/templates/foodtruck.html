@@ -12,17 +12,23 @@
         <a href="http://localhost:8080/show-all-reviews">Reviews</a>
         <button class="dropdown-btn">Food Trucks 
             <i class="fa fa-caret-down"></i>
-          </button>
+        </button>
           <div class="dropdown-container">
-              <div th:each="foodtruck: ${foodtrucks}">
-                  <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
-              </div>
+              <a href="localhost:8080/foodtruck?id=5">Mikey's Late Night Slice</a>
+              <a href="localhost:8080/foodtruck?id=6">Kabob Time</a>
+              <a href="localhost:8080/foodtruck?id=7">Ray Ray's Hog Pit</a>
+              <a href="localhost:8080/foodtruck?id=8">Halal New York Gyro</a>
+              <a href="localhost:8080/foodtruck?id=9">La Arepa Picante</a>
+              <a href="localhost:8080/foodtruck?id=10">Mr. Grill Tacos</a>
           </div>
       </div>
       <div id="main">
           <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Food Truck Reviews</span>
+
         </div>
-  
+
+      </div>
+
          <div class="center">
             <div id="foodtruck" th:each = "foodtruck: ${foodtrucks}">
                 <input class = "foodtruckId" name = "foodtruckId" type = "hidden" th:value = "${foodtruck.id}"/>
@@ -43,10 +49,15 @@
               </ul>
               </section>
               </div>
+
            </div>
            
         <footer class = "footer"> 
         </footer>
       <script src="./js/server-requests.js"></script>
+	 		    </div>	
+        <footer class = "footer"> 
+        </footer>
+      <script src="./js/foodtruck.js"></script>
 </body>
 </html>
