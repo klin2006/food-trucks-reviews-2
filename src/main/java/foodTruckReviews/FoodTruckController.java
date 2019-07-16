@@ -114,11 +114,22 @@ public class FoodTruckController {
 		model.addAttribute("tags", tagRepo.findAll());
 		return "partial/tags-list-removed";
 	}
-	
-	
-}	
 
+	@RequestMapping(path ="/tags/{tagType}/{id}", method= RequestMethod.POST)
+	public void addTagToFoodTruck(String tagType, long id) {
+		Tag tagToAdd = tagRepo.findByType(tagType);
+		if(tagToAdd == null) {
+			tagToAdd = new Tag(tagType);
+		}
+		Foodtruck foodTruckToAddTo = foodTruckRepo.findById(id).get();
+		
+		foodTruckToAddTo.addTag(tagToAdd);
+		foodTruckRepo.save(foodTruckToAddTo);
+		
 
+		
+	}
+	
 
 	@RequestMapping("/comment")
 	public String findOneComment(@RequestParam(value="id") Long id, Model model) throws CommentNotFoundException {

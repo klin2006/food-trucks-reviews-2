@@ -25,6 +25,7 @@
   
          <div class="center">
             <div id="foodtruck" th:each = "foodtruck: ${foodtrucks}">
+                <input class = "foodtruckId" name = "foodtruckId" type = "hidden" th:value = "${foodtruck.id}"/>
                 <h2 th:text = "${foodtruck.name}"></h2>
                 <section id = "indivfoodtruck">
                 <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
@@ -34,17 +35,19 @@
                 <input type = "text" placeholder = "Add a Tag" />
                 <button>Submit Tag</button> 
               </section>
+              <section class = "tags-list">
               <ul th:each="tag: ${foodtruck.tags}">
                 <input class = "tagId" name = "id" type = "hidden" th:value = "${tag.id}"/>
                 <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.type}"></a>
                 <button class = "x">&times;</button>
               </ul>
+              </section>
               </div>
 	 		    </div>
   
        </div>
         <footer class = "footer"> 
         </footer>
-      <script src="./js/app.js"></script>
+      <script src="./js/server-requests.js"></script>
 </body>
 </html>

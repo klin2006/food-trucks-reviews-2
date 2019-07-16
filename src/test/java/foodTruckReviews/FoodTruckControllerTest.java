@@ -1,5 +1,6 @@
 package foodTruckReviews;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
@@ -121,7 +123,11 @@ public class FoodTruckControllerTest {
 	}
 	
 	@Test
-	public void shouldAddAdditionalTagToFoodtruck() {
+	public void shouldAddNewTagToFoodtruck() {
+		when(tagRepo.findByType("TagType")).thenReturn(null);
+		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
+		underTest.addTagToFoodTruck("TagType",1L);
+		verify(foodTruckRepo).save(foodTruck);
 		
 	}
 	
