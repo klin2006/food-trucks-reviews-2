@@ -48,8 +48,6 @@ public class Review {
 		this.review = review;
 		this.foodtruck = foodtruck;
 		
-		
-	
 	}
 	
 	public String getReview() {

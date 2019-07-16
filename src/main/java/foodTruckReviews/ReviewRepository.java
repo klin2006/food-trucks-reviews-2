@@ -11,4 +11,6 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
 
 	Collection<Review> findByCommentsId(long commentId);
 
+	Review findByReview(String reviewReview);
+
 }

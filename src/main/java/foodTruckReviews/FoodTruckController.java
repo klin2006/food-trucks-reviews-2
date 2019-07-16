@@ -126,8 +126,6 @@ public class FoodTruckController {
 		foodTruckToAddTo.addTag(tagToAdd);
 		foodTruckRepo.save(foodTruckToAddTo);
 		
-
-		
 	}
 	
 
@@ -149,6 +147,18 @@ public class FoodTruckController {
 		return ("show-all-comments");
 		
 	}
+	
+	@RequestMapping("/add-review")
+	public String addReview(String reviewReview, String foodtruckName) {
+		Foodtruck foodtruck = foodTruckRepo.findByName(foodtruckName);
+		Review newReview = reviewRepo.findByReview(reviewReview);
+		if (newReview == null) {
+		newReview = new Review(reviewReview, foodtruck);
+		reviewRepo.save(newReview);}
+		
+		return "redirect:/show-all-reviews";
+	}
+	 
 
 }
 
