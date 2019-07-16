@@ -26,6 +26,9 @@ public class FoodTruckController {
 	@Resource
 	FoodtruckRepository foodTruckRepo;
 	
+	@Resource
+	CommentRepository commentRepo;
+
 	@RequestMapping("/foodtruck")
 	public String findOneFoodTruck(@RequestParam(value = "id") Long id, Model model) throws FoodTruckNotFoundException {
 		Optional<Foodtruck> foodTruck = foodTruckRepo.findById(id);
@@ -83,6 +86,7 @@ public class FoodTruckController {
 		model.addAttribute("tags", tagRepo.findAll());
 		return ("show-all-tags");
 	}
+
 	
 	@RequestMapping(path="/tags/{tagType}", method=RequestMethod.POST)
 	public String addTag(@PathVariable String tagType, Model model) {
@@ -128,4 +132,27 @@ public class FoodTruckController {
 	
 	
 }	
+
+
+
+	@RequestMapping("/comment")
+	public String findOneComment(@RequestParam(value="id") Long id, Model model) throws CommentNotFoundException {
+		Optional<Comment> comment = commentRepo.findById(id);
+		
+		if(comment.isPresent()) {
+			model.addAttribute("comments", comment.get());
+			model.addAttribute("reviews", reviewRepo.findByCommentsContains(comment.get()));
+			return ("comment");
+		}
+		throw new CommentNotFoundException();
+
+	}
+	@RequestMapping("/show-all-comments")
+	public String findAllComments(Model model) {
+		model.addAttribute("comments", commentRepo.findAll());
+		return ("show-all-comments");
+		
+	}
+
+}
 

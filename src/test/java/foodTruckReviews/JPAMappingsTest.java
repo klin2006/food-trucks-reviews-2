@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,19 +32,24 @@ import foodTruckReviews.ReviewRepository;
 @DataJpaTest
 
 public class JPAMappingsTest {
+	
 	@Resource
 	private TagRepository tagRepo;
 	
 	@Resource
 
 	private FoodtruckRepository foodtruckRepo;
-	
-		
+			
 	@Resource
 	private TestEntityManager entityManager;
 	
 	@Resource
 	private ReviewRepository reviewRepo;
+	
+	@Resource
+	private CommentRepository commentRepo;
+	
+	
 	
 	
 	@Test
@@ -158,6 +164,7 @@ public class JPAMappingsTest {
 	}
 	
 	@Test
+<<<<<<< HEAD
 	public void shouldSaveTagToFoodtruck() {
 		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
 		long cuisineId = mediterranean.getId();
@@ -189,4 +196,87 @@ public class JPAMappingsTest {
 		
 		
 	}
+=======
+	public void shouldSaveAndLoadComment() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment = new Comment("comment", review);
+		comment = commentRepo.save(comment);
+		long commentId = comment.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Comment> result = commentRepo.findById(commentId);
+		comment = result.get();
+		assertThat(comment.getComment(), is("comment"));
+	}
+	
+	@Test
+	public void shouldGenerateCommentId() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment = new Comment("comment", review);
+		comment = commentRepo.save(comment);
+		long commentId = comment.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		assertThat(commentId, is(greaterThan(0L)));
+	}
+	
+	@Test
+	public void shouldEstablishCommentForReviewsRelationship() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
+		Review review = new Review("review", foodtruck);
+		Comment comment1 = new Comment("comment 1", review);
+		comment1 = commentRepo.save(comment1);
+		Comment comment2 = new Comment("comment 2", review);
+		comment2 = commentRepo.save(comment2);
+		
+		review = reviewRepo.save(review);
+		long reviewId = review.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Review> result = reviewRepo.findById(reviewId);
+		review = result.get();
+		assertThat(review.getComments(), containsInAnyOrder(comment1, comment2));
+	}
+	
+	@Test
+	public void shouldFindReviewForComment() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment1 = new Comment("comment 1", review);
+		comment1 = commentRepo.save(comment1);
+	
+		entityManager.flush();
+		entityManager.clear();
+		
+		Collection<Review> reviewForComment = reviewRepo.findByCommentsContains(comment1);
+		
+		assertThat(reviewForComment, containsInAnyOrder(review));
+	}
+	
+	@Test
+	public void shouldFindReviewForCommentId() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment1 = new Comment("comment 1", review);
+		comment1 = commentRepo.save(comment1);
+		long comment1Id = comment1.getId();
+		
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Collection<Review> reviewForComment = reviewRepo.findByCommentsId(comment1Id);
+		assertThat(reviewForComment, containsInAnyOrder(review));
+		
+	}
+	
+	
+>>>>>>> 65c8d53ade28a90cb84a55584e4013559b66a737
 }	
