@@ -27,19 +27,29 @@
             <div id="foodtruck" th:each = "foodtruck: ${foodtrucks}">
                 <input class = "foodtruckId" name = "foodtruckId" type = "hidden" th:value = "${foodtruck.id}"/>
                 <h2 th:text = "${foodtruck.name}"></h2>
+                <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
                 
                 <section id = "indivfoodtruck">
-<<<<<<< HEAD
-                  <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
 
-                  
+                  <section id="individual review">
                   <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
                
-                </section>
+                
                
                 
+                <section class= "add-comment" method="POST">
+                  
+                      <input type="text" placeholder= "add your comment" />
+                      <button>Submit Comment</button>
+                </section>
                 
-                
+                  <!-- <ul th:each="comment: ${comment.review}">
+                    <input class= "commentId" type="hidden" th:value=${comment.id}/>
+                    <a th:text= "$comment.comment}"></a>
+                    <button class="x">delete</button>
+                  </ul> -->
+                </section>
+                </section>
                 
                 
                 <section class = "add-tag">
@@ -51,35 +61,7 @@
                   <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.type}"></a>
                   <button class = "x">&times;</button>
                 </ul>
-=======
-                <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
-                <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
-              </section>
-              <section class = "add-tag">
-                <input type = "text" placeholder = "Add a Tag" />
-                <button>Submit Tag</button> 
-              </section>
-              <section class = "tags-list">
-              <ul th:each="tag: ${foodtruck.tags}">
-                <input class = "tagId" name = "id" type = "hidden" th:value = "${tag.id}"/>
-                <a th:href="@{/tag(id=${tag.id})}"    th:text= "${tag.type}"></a>
-                <button class = "x">&times;</button>
-              </ul>
-              </section>
->>>>>>> d6f66fa0bf117a18e7e4dcd77669505011feabc7
               </div>
-                                    <section class= "add-comment" method="POST">
-                                      
-                                          <label>Comment:</label>
-                                          <input type="text" placeholder= "add your comment" />
-                                          <button>Submit Comment</button>
-                                    </section>
-                                    
-                                      <ul th:each="comment: ${review.comments}">
-                                        <input class= "commentId" type="hidden" th:value=${comment.id}/>
-                                        <a th:text= "$comment.comment}"></a>
-                                        <button class="x">delete</button>
-                                      </ul>
 	 		    </div>
   
        </div>

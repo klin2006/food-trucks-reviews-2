@@ -26,13 +26,9 @@ for (i = 0; i < dropdown.length; i++) {
 const tagAddButton = document.querySelector('.add-tag button');
 const tagAddInput = document.querySelector('.add-tag input');
 const tagsList = document.querySelector('.tags-list ul');
-<<<<<<< HEAD
 const commentAddButton = document.querySelector('.add-comment button')
 const commentAddInput = document.querySelector('.add-comment input')
 
-=======
-const foodtruckId = document.querySelector('.foodtruckId');
->>>>>>> d6f66fa0bf117a18e7e4dcd77669505011feabc7
 
 const xhr = new XMLHttpRequest()
 xhr.onreadystatechange = function(){
