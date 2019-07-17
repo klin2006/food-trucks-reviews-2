@@ -25,7 +25,7 @@ public class FoodTruckController {
 
 	@Resource
 	FoodtruckRepository foodTruckRepo;
-	
+
 	@Resource
 	CommentRepository commentRepo;
 
@@ -72,7 +72,8 @@ public class FoodTruckController {
 
 		if (tag.isPresent()) {
 			model.addAttribute("tags", tag.get());
-//			model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag.get()));
+			// model.addAttribute("foodtrucks",
+			// foodTruckRepo.findByTagsContains(tag.get()));
 			model.addAttribute("foodtrucks", tag.get().getFoodtrucks());
 
 			return ("tag");
@@ -87,53 +88,50 @@ public class FoodTruckController {
 		return ("show-all-tags");
 	}
 
-	
-	@RequestMapping(path="/tags/{tagType}", method=RequestMethod.POST)
+	@RequestMapping(path = "/tags/{tagType}", method = RequestMethod.POST)
 	public String addTag(@PathVariable String tagType, Model model) {
 		Tag tagToAdd = tagRepo.findByType(tagType);
-		if(tagToAdd == null) {
-			tagToAdd=new Tag(tagType);
-			tagRepo.save(tagToAdd);		
+		if (tagToAdd == null) {
+			tagToAdd = new Tag(tagType);
+			tagRepo.save(tagToAdd);
 		}
 		model.addAttribute("tags", tagRepo.findAll());
 		return "partial/tags-list-added";
 	}
-	
-	@RequestMapping(path ="/tags/remove/{id}", method= RequestMethod.POST)
+
+	@RequestMapping(path = "/tags/remove/{id}", method = RequestMethod.POST)
 	public String removeTag(@PathVariable Long id, Model model) {
 		Optional<Tag> tagToRemoveResult = tagRepo.findById(id);
 		Tag tagToRemove = tagToRemoveResult.get();
-		
-		for(Foodtruck foodtruck: tagToRemove.getFoodtrucks()) {
+
+		for (Foodtruck foodtruck : tagToRemove.getFoodtrucks()) {
 			foodtruck.removeTag(tagToRemove);
 			foodTruckRepo.save(foodtruck);
 		}
-		
-		
+
 		tagRepo.delete(tagToRemove);
 		model.addAttribute("tags", tagRepo.findAll());
 		return "partial/tags-list-removed";
 	}
 
-	@RequestMapping(path ="/tags/{tagType}/{id}", method= RequestMethod.POST)
+	@RequestMapping(path = "/tags/{tagType}/{id}", method = RequestMethod.POST)
 	public void addTagToFoodTruck(String tagType, long id) {
 		Tag tagToAdd = tagRepo.findByType(tagType);
-		if(tagToAdd == null) {
+		if (tagToAdd == null) {
 			tagToAdd = new Tag(tagType);
 		}
 		Foodtruck foodTruckToAddTo = foodTruckRepo.findById(id).get();
-		
+
 		foodTruckToAddTo.addTag(tagToAdd);
 		foodTruckRepo.save(foodTruckToAddTo);
-		
+
 	}
-	
 
 	@RequestMapping("/comment")
-	public String findOneComment(@RequestParam(value="id") Long id, Model model) throws CommentNotFoundException {
+	public String findOneComment(@RequestParam(value = "id") Long id, Model model) throws CommentNotFoundException {
 		Optional<Comment> comment = commentRepo.findById(id);
-		
-		if(comment.isPresent()) {
+
+		if (comment.isPresent()) {
 			model.addAttribute("comments", comment.get());
 			model.addAttribute("reviews", reviewRepo.findByCommentsContains(comment.get()));
 			return ("comment");
@@ -141,55 +139,67 @@ public class FoodTruckController {
 		throw new CommentNotFoundException();
 
 	}
+
 	@RequestMapping("/show-all-comments")
 	public String findAllComments(Model model) {
 		model.addAttribute("comments", commentRepo.findAll());
 		return ("show-all-comments");
-		
+
 	}
-	
+
 	@RequestMapping("/add-review")
-	public String addReview(String reviewReview, String foodtruckName) {
+	public String addReview(String reviewName, String reviewReview, String foodtruckName) {
 		Foodtruck foodtruck = foodTruckRepo.findByName(foodtruckName);
 		Review newReview = reviewRepo.findByReview(reviewReview);
-		
+
 		if (newReview == null) {
-		newReview = new Review(reviewReview, foodtruck);
-		reviewRepo.save(newReview);
+			newReview = new Review(reviewName, reviewReview, foodtruck);
+			reviewRepo.save(newReview);
 		}
-		
+
 		return "redirect:/show-all-foodtrucks";
 	}
-	
+
 	@RequestMapping("/add-foodtruck-tag")
 	public String addTagToFoodtruck(String foodtruckName, String foodtruckMap, String tagType) {
 		Tag tag = tagRepo.findByType(tagType);
-		
-		if(tag == null) {
-		tag = new Tag(tagType);
-		tagRepo.save(tag);
+
+		if (tag == null) {
+			tag = new Tag(tagType);
+			tagRepo.save(tag);
 		}
-		
+
 		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
 		if (newFoodtruck == null) {
 			newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, tag);
 			foodTruckRepo.save(newFoodtruck);
-			}
-			
-			return "redirect:/show-all-foodtrucks";
 		}
-	
+
+		return "redirect:/show-all-foodtrucks";
+	}
+
 	@RequestMapping("/find-by-tag")
 	public String findFoodtrucksByTag(String tagType, Model model) {
-	Tag tag = tagRepo.findByType(tagType);
-	model.addAttribute("foodtrucks",foodTruckRepo.findByTagsContains(tag));
+		Tag tag = tagRepo.findByType(tagType);
+		model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag));
+
+		return "/tag";
+	}
+
 	
-	return "/tag";
-	}
 
+	@RequestMapping("/add-comment")
+	public String addComment(String commentComment, Review reviewReview) {
+		Review review = reviewRepo.findByReview(reviewReview);
+		Comment newComment = commentRepo.findByCommentIgnoreCaseLike(commentComment);
 		
-	}
-	 
+		if(newComment == null) {
+			newComment =new Comment(commentComment, reviewReview);
+			commentRepo.save(newComment);
+		}
+		
+		return "redirect:/show-all-foodtrucks";
+		
+}
 
-
-;
+}

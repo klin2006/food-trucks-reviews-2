@@ -172,5 +172,17 @@ public class FoodTruckControllerTest {
 		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
 		
 	}
+	
+	@Test
+	public void shouldAddAdditonalCommentsToModel() {
+		Foodtruck foodTruck = new Foodtruck("name", "map");
+		Review reviewReview = new Review("reviewreview", foodTruck);
+		Review newReview = reviewRepo.findByReview(reviewReview);
+		String commentComment = "comment comment";
+		
+		underTest.addComment(commentComment, reviewReview);
+		Comment newComment = new Comment(commentComment, newReview);
+		when(commentRepo.save(newComment)).thenReturn(newComment);
+	}
 }
 
