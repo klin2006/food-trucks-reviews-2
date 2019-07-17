@@ -151,8 +151,8 @@ public class JPAMappingsTest {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
 		long foodtruckId = foodtruck.getId();
 		
-		Review review = reviewRepo.save(new Review("Review1", foodtruck));
-		Review review2 = reviewRepo.save(new Review("Review2", foodtruck));
+		Review review = reviewRepo.save(new Review("Review Name 1", "Review1", foodtruck));
+		Review review2 = reviewRepo.save(new Review("Review Name 2","Review2", foodtruck));
 		
 		entityManager.flush();
 		entityManager.clear();
@@ -199,7 +199,7 @@ public class JPAMappingsTest {
 
 	public void shouldSaveAndLoadComment() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
-		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Review review = reviewRepo.save(new Review("review name", "review", foodtruck));
 		Comment comment = new Comment("comment", review);
 		comment = commentRepo.save(comment);
 		long commentId = comment.getId();
@@ -215,7 +215,7 @@ public class JPAMappingsTest {
 	@Test
 	public void shouldGenerateCommentId() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
-		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Review review = reviewRepo.save(new Review("review name", "review", foodtruck));
 		Comment comment = new Comment("comment", review);
 		comment = commentRepo.save(comment);
 		long commentId = comment.getId();
@@ -228,7 +228,7 @@ public class JPAMappingsTest {
 	@Test
 	public void shouldEstablishCommentForReviewsRelationship() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
-		Review review = new Review("review", foodtruck);
+		Review review = new Review("review name", "review", foodtruck);
 		Comment comment1 = new Comment("comment 1", review);
 		comment1 = commentRepo.save(comment1);
 		Comment comment2 = new Comment("comment 2", review);
@@ -248,7 +248,7 @@ public class JPAMappingsTest {
 	@Test
 	public void shouldFindReviewForComment() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
-		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Review review = reviewRepo.save(new Review("review name", "review", foodtruck));
 		Comment comment1 = new Comment("comment 1", review);
 		comment1 = commentRepo.save(comment1);
 	
@@ -263,7 +263,7 @@ public class JPAMappingsTest {
 	@Test
 	public void shouldFindReviewForCommentId() {
 		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
-		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Review review = reviewRepo.save(new Review("review name", "review", foodtruck));
 		Comment comment1 = new Comment("comment 1", review);
 		comment1 = commentRepo.save(comment1);
 		long comment1Id = comment1.getId();
@@ -276,8 +276,6 @@ public class JPAMappingsTest {
 		assertThat(reviewForComment, containsInAnyOrder(review));
 		
 	}
-	
-	
 	
 	
 }	

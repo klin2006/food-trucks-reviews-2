@@ -154,8 +154,9 @@ public class FoodTruckControllerTest {
 		String foodtruckName = "foodtruck name";
 		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
 		String reviewReview = "new review";
-		underTest.addReview(reviewReview, foodtruckName);
-		Review newReview = new Review(reviewReview, newFoodtruck);
+		String reviewName = "review name";
+		underTest.addReview(reviewName, reviewReview, foodtruckName);
+		Review newReview = new Review(reviewName, reviewReview, newFoodtruck);
 		when(reviewRepo.save(newReview)).thenReturn(newReview);
 		
 	}
@@ -171,6 +172,22 @@ public class FoodTruckControllerTest {
 		Foodtruck newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, newTag);
 		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
 		
+	}
+	
+	@Test
+	public void shouldAddAdditonalCommentsToModel() {
+		Foodtruck foodTruck = new Foodtruck("name", "map");
+		Review review = new Review("review name", "reviewreview", foodTruck);
+		reviewRepo.save(review);
+		
+		long id = review.getId();
+		System.out.println("review equals " + review + " the id equals " + id);
+		Review newReview = reviewRepo.findByReview(review);
+		String commentComment = "comment comment";
+		
+		underTest.addComment(commentComment, id);
+		Comment newComment = new Comment(commentComment, newReview);
+		when(commentRepo.save(newComment)).thenReturn(newComment);
 	}
 }
 
