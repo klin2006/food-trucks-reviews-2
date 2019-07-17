@@ -36,7 +36,6 @@ public class FoodtruckPopulator implements CommandLineRunner{
 		Foodtruck arepa = foodtruckRepo.save(new Foodtruck("La Arepa Picante", "arepa", mexican));
 		Foodtruck mrgrill = foodtruckRepo.save(new Foodtruck("Mr. Grill Tacos", "mrtaco", mexican));
 		
-		commentRepo.save(new Comment("This review is nuts", reviewRepo.findByReviewName("Ryan's Mikey's Review")));
 		
 		
 		reviewRepo.save(new Review("Ryan's Mikey's Review", "It is definitely in the name. Mikey's is one of the best places to get a slice of pizza in the middle of the night. They have a very broad variety of pizzas but they also have the option of buying a pie.", mikeys));
@@ -48,6 +47,8 @@ public class FoodtruckPopulator implements CommandLineRunner{
 		reviewRepo.save(new Review("Kathy's Halal New York Gyro Review", "Halal New York Gyro is on the westside of Columbus right next to a Marathon gas station. It's decently priced, fairly timely, and pretty good. Would recommend!", halal));
 		reviewRepo.save(new Review("Kathy's La Arepa Picante Review","La Arepa Picante is right across the street from the Casino. It has a wide variety of food which is reasonably priced. There is very little wait time and is delish!", arepa));
 		reviewRepo.save(new Review("Kathy's Mr grill Tacos Review", "Mr. Grill Tacos is a favorite but there is a really long wait...one time it took us 45 minutes to get our food. It was worth it in the end, but don't got if you are in a rush.", mrgrill));
+		
+		Comment comment1 = commentRepo.save(new Comment("This review is nuts", reviewRepo.findByReviewName("Ryan's Mikey's Review")));
 	}
 
 }
