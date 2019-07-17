@@ -1,5 +1,6 @@
 package foodTruckReviews;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
@@ -49,6 +51,16 @@ public class FoodTruckControllerTest {
 	
 	@Mock
 	private Model model;
+	
+	@Mock
+	private CommentRepository commentRepo;
+	
+	@Mock
+	private Comment comment;
+	
+	@Mock
+	private Comment anotherComment;
+	
 	
 	@Before
 	public void setUp() {
@@ -111,10 +123,54 @@ public class FoodTruckControllerTest {
 	}
 	
 	@Test
-	public void shouldAddAdditionalTagToFoodtruck() {
+	public void shouldAddNewTagToFoodtruck() {
+		when(tagRepo.findByType("TagType")).thenReturn(null);
+		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
+		underTest.addTagToFoodTruck("TagType",1L);
+		verify(foodTruckRepo).save(foodTruck);
 		
 	}
 	
+	@Test
+	public void shouldAddSingleCommentToModel() throws CommentNotFoundException {
+		long arbitraryCommentId = 1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		underTest.findOneComment(arbitraryCommentId, model);
+		verify(model).addAttribute("comments", comment);
+	}
 	
+	@Test
+	public void shouldAddAllCommentsToModel() {
+		Collection<Comment> allComments = Arrays.asList(comment, anotherComment);
+		when(commentRepo.findAll()).thenReturn(allComments);
+		
+		underTest.findAllComments(model);
+		verify(model).addAttribute("comments", allComments);
+	}
+	
+	@Test
+	public void shouldAddAdditionalReviewToModel() {
+		String foodtruckName = "foodtruck name";
+		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
+		String reviewReview = "new review";
+		underTest.addReview(reviewReview, foodtruckName);
+		Review newReview = new Review(reviewReview, newFoodtruck);
+		when(reviewRepo.save(newReview)).thenReturn(newReview);
+		
+	}
+	
+	@Test
+	public void shouldAddAdditionalFoodtruckTagToModel() {
+		String tagType = "tag type";
+		Tag newTag = tagRepo.findByType(tagType);
+		
+		String foodtruckName = "new foodtruck";
+		String foodtruckMap = "new map";
+		underTest.addTagToFoodtruck(foodtruckName, foodtruckMap, tagType);
+		Foodtruck newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, newTag);
+		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
+		
+	}
 }
 

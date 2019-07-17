@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.greaterThan;
 
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,19 +32,24 @@ import foodTruckReviews.ReviewRepository;
 @DataJpaTest
 
 public class JPAMappingsTest {
+	
 	@Resource
 	private TagRepository tagRepo;
 	
 	@Resource
 
 	private FoodtruckRepository foodtruckRepo;
-	
-		
+			
 	@Resource
 	private TestEntityManager entityManager;
 	
 	@Resource
 	private ReviewRepository reviewRepo;
+	
+	@Resource
+	private CommentRepository commentRepo;
+	
+	
 	
 	
 	@Test
@@ -127,7 +134,6 @@ public class JPAMappingsTest {
 		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
 
 		long cuisineId = mediterranean.getId();
-
 		
 		Foodtruck foodtruck3 = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3", mediterranean));
 		Foodtruck foodtruck4 = foodtruckRepo.save(new Foodtruck("Kabob Time", "map4", mediterranean));
@@ -156,4 +162,120 @@ public class JPAMappingsTest {
 		assertThat(foodtruck.getReviews(), containsInAnyOrder(review, review2));
 		
 	}
+	
+	@Test
+
+	public void shouldSaveTagToFoodtruck() {
+		Tag mediterranean  = tagRepo.save(new Tag("mediterranean"));
+		long cuisineId = mediterranean.getId();
+		
+		Foodtruck foodtruck3 = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3", mediterranean));
+		
+		Tag american = tagRepo.save(new Tag("american"));
+		long tagId = american.getId();
+
+		foodtruck3.addTag(american);
+		foodtruckRepo.save(foodtruck3);
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Foodtruck>result = foodtruckRepo.findById(foodtruck3.getId());
+		Foodtruck retrieveFoodtruck = result.get();
+		
+		assertThat(retrieveFoodtruck.getTags(), containsInAnyOrder(american, mediterranean));
+		
+		Optional<Tag>result2 = tagRepo.findById(american.getId());
+		Tag retrieveTag = result2.get();
+		assertThat(retrieveTag.getFoodtrucks(), contains(foodtruck3));
+		
+		
+		
+	
+		
+		
+		
+	}
+
+	public void shouldSaveAndLoadComment() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment = new Comment("comment", review);
+		comment = commentRepo.save(comment);
+		long commentId = comment.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Comment> result = commentRepo.findById(commentId);
+		comment = result.get();
+		assertThat(comment.getComment(), is("comment"));
+	}
+	
+	@Test
+	public void shouldGenerateCommentId() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("food truck", "map"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment = new Comment("comment", review);
+		comment = commentRepo.save(comment);
+		long commentId = comment.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		assertThat(commentId, is(greaterThan(0L)));
+	}
+	
+	@Test
+	public void shouldEstablishCommentForReviewsRelationship() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
+		Review review = new Review("review", foodtruck);
+		Comment comment1 = new Comment("comment 1", review);
+		comment1 = commentRepo.save(comment1);
+		Comment comment2 = new Comment("comment 2", review);
+		comment2 = commentRepo.save(comment2);
+		
+		review = reviewRepo.save(review);
+		long reviewId = review.getId();
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Optional<Review> result = reviewRepo.findById(reviewId);
+		review = result.get();
+		assertThat(review.getComments(), containsInAnyOrder(comment1, comment2));
+	}
+	
+	@Test
+	public void shouldFindReviewForComment() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment1 = new Comment("comment 1", review);
+		comment1 = commentRepo.save(comment1);
+	
+		entityManager.flush();
+		entityManager.clear();
+		
+		Collection<Review> reviewForComment = reviewRepo.findByCommentsContains(comment1);
+		
+		assertThat(reviewForComment, containsInAnyOrder(review));
+	}
+	
+	@Test
+	public void shouldFindReviewForCommentId() {
+		Foodtruck foodtruck = foodtruckRepo.save(new Foodtruck("Halal NeywYork Gyro", "map3"));
+		Review review = reviewRepo.save(new Review("review", foodtruck));
+		Comment comment1 = new Comment("comment 1", review);
+		comment1 = commentRepo.save(comment1);
+		long comment1Id = comment1.getId();
+		
+		
+		entityManager.flush();
+		entityManager.clear();
+		
+		Collection<Review> reviewForComment = reviewRepo.findByCommentsId(comment1Id);
+		assertThat(reviewForComment, containsInAnyOrder(review));
+		
+	}
+	
+	
 }	

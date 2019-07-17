@@ -6,24 +6,26 @@
     <link rel="stylesheet" href="./css/styles.css">
     <body>
         <h1>Single Tag</h1>
-        <div class="mainBody">
-          <div class="navbar">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
             <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
             <a href="http://localhost:8080/show-all-tags">Tags</a>
             <a href="http://localhost:8080/show-all-reviews">Reviews</a>
-            <div class="dropdown">
-              <button class="dropbtn">Food Trucks 
+            <button class="dropdown-btn">Food Trucks 
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
-                    <div th:each="foodtruck: ${foodtrucks}">
-                            <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
-                    </div>
+              <div class="dropdown-container">
+                  <div th:each="foodtruck: ${foodtrucks}">
+                      <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
+                  </div>
               </div>
-            </div> 
           </div>
-        <div class="dashed">
-     <div class="dashed">
+    <div id="main">
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Food Truck Reviews</span>
+    </div>
+        <div class="center">
+
      <div th:each = "tag: ${tags}">
         <h2 th:text = "${tag.type}"></h2>
       <div th:each="foodtruck: ${foodtrucks}">
@@ -33,11 +35,7 @@
       </div>
     </div>
     <footer class = "footer">
-      	<a href="http://localhost:8080/show-all-tags">List of Tags</a>
-        
-        <a href="http://localhost:8080/show-all-reviews">List of Reviews</a>
-        
-        <a href="http://localhost:8080/show-all-foodtrucks">Back to Home</a>
   </footer>
+  <script src="./js/app.js"></script>   
 </body>
 </html>
