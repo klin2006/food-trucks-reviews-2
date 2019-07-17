@@ -178,11 +178,14 @@ public class FoodTruckControllerTest {
 	public void shouldAddAdditonalCommentsToModel() {
 		Foodtruck foodTruck = new Foodtruck("name", "map");
 		Review review = new Review("review name", "reviewreview", foodTruck);
-		long reviewId = review.getId();
+		reviewRepo.save(review);
+		
+		long id = review.getId();
+		System.out.println("review equals " + review + " the id equals " + id);
 		Review newReview = reviewRepo.findByReview(review);
 		String commentComment = "comment comment";
 		
-		underTest.addComment(commentComment, review);
+		underTest.addComment(commentComment, id);
 		Comment newComment = new Comment(commentComment, newReview);
 		when(commentRepo.save(newComment)).thenReturn(newComment);
 	}

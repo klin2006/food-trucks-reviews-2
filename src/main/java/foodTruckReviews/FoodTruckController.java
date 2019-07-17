@@ -186,21 +186,17 @@ public class FoodTruckController {
 		return "/tag";
 	}
 
-	
-
 	@RequestMapping("/add-comment")
-	public String addComment(String commentComment, Long  id) {
+	public String addComment(String commentComment, Long id) {
 		Optional<Review> reviewResult = reviewRepo.findById(id);
-		Review review = reviewResult.get();		
+		Review review = reviewResult.get();
 		Comment newComment = commentRepo.findByCommentIgnoreCaseLike(commentComment);
-		
-		if(newComment == null) {
-			newComment =new Comment(commentComment, review);
-			commentRepo.save(newComment);
-		}
-		
+
+		newComment = new Comment(commentComment, review);
+		commentRepo.save(newComment);
+
 		return "redirect:/review?id=" + id;
-		
-}
+
+	}
 
 }
