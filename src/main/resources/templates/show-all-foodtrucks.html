@@ -47,9 +47,33 @@
                        </div>
                 
                       <div>
-                        <button th:formaction="@{add-review}"> Add Comment </button>
+                        <button th:formaction="@{add-review}"> Add Comment: </button>
                       </div>
                       </form>
+
+                      <form method = "POST">
+                
+                       <div>
+                         <select name = "foodtruckName">
+                         <option value = "Mikey's Late Night Slice">Mikey's Late Night Slice</option>
+                         <option value = "Kabob Time">Kabob Time</option>
+                         <option value = "Ray Ray's Hog Pit">Ray Ray's Hog Pit</option>
+                         <option value = "Halal New York Gyro">Halal New York Gyro</option>
+                         <option value = "La Arepa Picante">La Arepa Picante</option>
+                         <option value = "Mr. Grill Tacos">Mr. Grill Tacos</option>
+                       </select>
+                       </div>
+
+                       <div>
+                        <label>Enter Tag:</label>
+                        <input type = "text" name = "tagType" size = "90" />
+                     </div>
+                
+                      <div>
+                        <button th:formaction="@{add-foodtruck-tag}"> Add Tag </button>
+                      </div>
+                      </form>
+                      
           <div id="images">         
                   
                    <div class = "slideshow fade"> 
