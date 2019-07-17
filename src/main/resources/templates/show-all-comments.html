@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html xmlns:th = "http://www.thymeleaf.org" lang="en">
+
+    <head>
+        <title>Tags</title>
+    </head>
+    <link rel="stylesheet" type= "text/css" href="./css/styles.css">
+    <body>
+        <h1>List of Cuisines</h1>
+        <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+                <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+                <a href="http://localhost:8080/show-all-tags">Tags</a>
+                <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+                <button class="dropdown-btn">Food Trucks 
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <div class="dropdown-container">
+                      <div th:each="foodtruck: ${foodtrucks}">
+                          <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
+                      </div>
+                  </div>
+              </div>
+        <div id="main">
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Food Truck Reviews</span>
+        </div>
+              <div class="center">
+            <div th:each = "comment: ${comments}">
+        <h2 id = "showcomments"><a th:href="@{/comment(id=${comment.id})}" th:text="${comment.comment}"> </a></h2> 
+     
+            </div>
+
+            </div>
+        <footer class = "footer">       
+
+        </footer>
+        <script src="./js/app.js"></script>   
+
+        
+    </body>
+
+</html>
