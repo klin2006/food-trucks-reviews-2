@@ -48,8 +48,6 @@ public class Review {
 		this.review = review;
 		this.foodtruck = foodtruck;
 		
-		
-	
 	}
 	
 	public String getReview() {
@@ -90,16 +88,6 @@ public class Review {
 		if (id != other.id)
 			return false;
 		return true;
-	}
-
-	public void removeComment(Comment commentToRemove) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void addComment(Comment commentToAdd) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

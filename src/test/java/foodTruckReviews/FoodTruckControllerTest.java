@@ -148,5 +148,29 @@ public class FoodTruckControllerTest {
 		underTest.findAllComments(model);
 		verify(model).addAttribute("comments", allComments);
 	}
+	
+	@Test
+	public void shouldAddAdditionalReviewToModel() {
+		String foodtruckName = "foodtruck name";
+		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
+		String reviewReview = "new review";
+		underTest.addReview(reviewReview, foodtruckName);
+		Review newReview = new Review(reviewReview, newFoodtruck);
+		when(reviewRepo.save(newReview)).thenReturn(newReview);
+		
+	}
+	
+	@Test
+	public void shouldAddAdditionalFoodtruckTagToModel() {
+		String tagType = "tag type";
+		Tag newTag = tagRepo.findByType(tagType);
+		
+		String foodtruckName = "new foodtruck";
+		String foodtruckMap = "new map";
+		underTest.addTagToFoodtruck(foodtruckName, foodtruckMap, tagType);
+		Foodtruck newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, newTag);
+		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
+		
+	}
 }
 

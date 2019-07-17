@@ -10,4 +10,8 @@ public interface FoodtruckRepository extends CrudRepository<Foodtruck, Long> {
 
 	Collection<Foodtruck> findByTagsId(Long id);
 
+	Foodtruck findByName(String foodtruckName);
+
+
+
 }

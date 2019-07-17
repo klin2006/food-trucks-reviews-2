@@ -26,9 +26,7 @@ for (i = 0; i < dropdown.length; i++) {
 const tagAddButton = document.querySelector('.add-tag button');
 const tagAddInput = document.querySelector('.add-tag input');
 const tagsList = document.querySelector('.tags-list ul');
-const commentAddButton = document.querySelector('.add-comment button')
-const commentAddInput = document.querySelector('.add-comment input')
-
+const foodtruckId = document.querySelector('.foodtruckId');
 
 const xhr = new XMLHttpRequest()
 xhr.onreadystatechange = function(){
@@ -64,11 +62,11 @@ function removeTag(id){
     xhr.send();
 }
 
-// const xhr = new XMLHttpRequest()
-// xhr.onreadystatechange = function(){
-//     if(xhr.readyState === 4 && xhr.status === 200){
-//     const res = xhr.responseText;
-//     commentAddInput.innerHTML = res;
+// const xhr2 = new XMLHttpRequest()
+// xhr2.onreadystatechange = function(){
+//     if(xhr2.readyState === 4 && xhr2.status === 200){
+//     const res2 = xhr2.responseText;
+//     commentAddInput.innerHTML = res2;
 //     }
 // }
 
@@ -78,21 +76,22 @@ function removeTag(id){
 //     commentAddInput.value = "";
 // })
 
-// tagsList.addEventListener('click', function(event){
-//     if(event.target.classList.contains('x')){
-//     let tagId = event.target.previousElementSibling.previousElementSibling.value;
-//       console.log(tagId);
-//       removeTag(tagId);
+// tagsList2.addEventListener('click', function(event2){
+//     if(event2.target.classList.contains('x')){
+//     let tagId2 = event2.target.previousElementSibling.previousElementSibling.value;
+//       console.log(tagId2);
+//       removeTag(tagId2);
 //     }
 // })
 
 
 // function postTags(tagType){
-//     xhr.open('POST', '/comments/' + tagType, true);
-//     xhr.send();
+//     xhr2.open('POST', '/comments/' + tagType, true);
+//     xhr2.send();
 // }
 
 // function removeTag(id){
-//     xhr.open('POST', '/comments/remove/' + id, true);
-//     xhr.send();
+//     xhr2.open('POST', '/comments/remove/' + id, true);
+//     xhr2.send();
+
 // }

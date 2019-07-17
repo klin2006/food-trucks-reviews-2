@@ -17,9 +17,6 @@ public class FoodtruckPopulator implements CommandLineRunner{
 	@Resource
 	private ReviewRepository reviewRepo;
 	
-	@Resource
-	private CommentRepository commentRepo;
-	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -37,8 +34,7 @@ public class FoodtruckPopulator implements CommandLineRunner{
 		Foodtruck mrgrill = foodtruckRepo.save(new Foodtruck("Mr. Grill Tacos", "mrtaco", mexican));
 		
 		
-		
-		Review review1= reviewRepo.save(new Review("It is definitely in the name. Mikey's is one of the best places to get a slice of pizza in the middle of the night. They have a very broad variety of pizzas but they also have the option of buying a pie.", mikeys));
+		reviewRepo.save(new Review("It is definitely in the name. Mikey's is one of the best places to get a slice of pizza in the middle of the night. They have a very broad variety of pizzas but they also have the option of buying a pie.", mikeys));
 		reviewRepo.save(new Review("Like pizza? Like places that stay open late? Like little wait time? Mikey's is your place. Nuff said.", mikeys));
 		reviewRepo.save(new Review(" Kabob time is a food truck that is very near Ray Ray's and looks to have a good menu. As I really want to try it when at class but Ray Ray's gets in the way. I look forward to getting the new review up as soon as I can get over my BBQ addiction.", kabob));
 		reviewRepo.save(new Review("Ray Ray's is amazing. I really enjoy the variety of the BBQ that is available, plus with the different sauces that \r\n" + 
@@ -47,8 +43,6 @@ public class FoodtruckPopulator implements CommandLineRunner{
 		reviewRepo.save(new Review("Halal New York Gyro is on the westside of Columbus right next to a Marathon gas station. It's decently priced, fairly timely, and pretty good. Would recommend!", halal));
 		reviewRepo.save(new Review("La Arepa Picante is right across the street from the Casino. It has a wide variety of food which is reasonably priced. There is very little wait time and is delish!", arepa));
 		reviewRepo.save(new Review("Mr. Grill Tacos is a favorite but there is a really long wait...one time it took us 45 minutes to get our food. It was worth it in the end, but don't got if you are in a rush.", mrgrill));
-		
-		commentRepo.save(new Comment("These reviewers are nuts", review1));
 	}
 
 }

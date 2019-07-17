@@ -10,6 +10,4 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 
 	Comment findByCommentIgnoreCaseLike(String commentComment);
 
-	Comment findByComment(String commentComment);
-
 }
