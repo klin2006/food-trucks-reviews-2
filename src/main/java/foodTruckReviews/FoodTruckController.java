@@ -150,7 +150,7 @@ public class FoodTruckController {
 	@RequestMapping("/add-review")
 	public String addReview(String reviewName, String reviewReview, String foodtruckName) {
 		Foodtruck foodtruck = foodTruckRepo.findByName(foodtruckName);
-		Review newReview = reviewRepo.findByReview(reviewReview);
+		Review newReview = reviewRepo.findByReviewName(reviewReview);
 
 		if (newReview == null) {
 			newReview = new Review(reviewName, reviewReview, foodtruck);
@@ -189,16 +189,17 @@ public class FoodTruckController {
 	
 
 	@RequestMapping("/add-comment")
-	public String addComment(String commentComment, Review reviewReview) {
-		Review review = reviewRepo.findByReview(reviewReview);
+	public String addComment(String commentComment, Long  id) {
+		Optional<Review> reviewResult = reviewRepo.findById(id);
+		Review review = reviewResult.get();		
 		Comment newComment = commentRepo.findByCommentIgnoreCaseLike(commentComment);
 		
 		if(newComment == null) {
-			newComment =new Comment(commentComment, reviewReview);
+			newComment =new Comment(commentComment, review);
 			commentRepo.save(newComment);
 		}
 		
-		return "redirect:/show-all-foodtrucks";
+		return "redirect:/review?id=" + id;
 		
 }
 

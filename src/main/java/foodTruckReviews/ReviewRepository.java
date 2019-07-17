@@ -13,7 +13,7 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
 
 	Review findByReview(Review reviewReview);
 
-	Review findByReview(String reviewReview);
+	
 
 	Review findByReviewName(String reviewName);
 

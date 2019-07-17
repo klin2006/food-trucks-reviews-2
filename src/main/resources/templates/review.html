@@ -34,15 +34,24 @@
                 <h3>Comments</h3> 
                 <ul th:each="comment: ${review.comments}" ></p>
                     <li th:text="${comment.comment}"></li>
+                
                 </div>
-
               <form method="POST">
                 <div>
                     <input type="text" name="commentComment" placeholder="enter comment here" />
-                    <input type="hidden" name="id" th:value="review.id"/>         
-                    <button th:formaction="@{/add-comment}">add comment</button>
                 </div>
-              </form>
+
+                <div>
+                    <input type="hidden"  name="id" th:value="review.id"/>         
+                </div>
+               
+               <div>
+                <button th:formaction="@{/add-comment}">add comment</button>
+            </div>
+        </form>
+    
+
+            </div>
 
         
 
