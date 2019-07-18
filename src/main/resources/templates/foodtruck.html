@@ -30,11 +30,19 @@
          <div class="center">
                 <input class = "foodtruckId" name = "foodtruckId" type = "hidden" th:value = "${foodtruck.id}"/>
                 <h2 th:text = "${foodtruck.name}"></h2>
-                <section id = "indivfoodtruck">  
-                  <p th:each="review: ${foodtruck.reviews}" th:text="${review.name}"></p>
-                </section>
-                
+               
+                <section>
+                <ul id = "indivreview" th:each="review: ${foodtruck.reviews}">  
+                  <a th:href="@{/review(id=${review.id})}" th:text="${review.name}"></a>
+                </ul>
+              </section>         
+
+
                 <img th:src="@{'/images/' + ${foodtruck.map} + '.jpg'}" alt = "Picture"/>
+                
+            
+                   
+                  
               </section>
               <section class = "add-tag">
                 <input type = "text" placeholder = "Add a Tag" />
@@ -51,21 +59,7 @@
            </div>
                 
         
-                <!-- <div th:each="review: ${reviews}">
-                <ul th:each="review: ${reviews.comments}">
-                  <input class= "commentId" type="hidden" th:value=${comment.id}/>
-                  <p th:each= "review: ${review.comments}" th:text= "${comment.comment}"></p>
-                  <button class="x">delete</button>
-                </ul>
-                
-              </div> -->
-            
-              <!-- <section class= "add-comment" method="POST">
-                
-                    <input type="text" placeholder= "add your comment" />
-                    <button>Submit Comment</button>
-              </section>
- -->
+              
 
                 
   

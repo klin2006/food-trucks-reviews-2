@@ -44,7 +44,10 @@ public class Review {
 	@ManyToOne
 	private Foodtruck foodtruck;
 
-	public Review(String review, Foodtruck foodtruck) {
+	private String reviewName;
+
+	public Review(String reviewName,String review, Foodtruck foodtruck) {
+		this.reviewName = reviewName;
 		this.review = review;
 		this.foodtruck = foodtruck;
 		
@@ -55,8 +58,10 @@ public class Review {
 	}
 	
 	public String getName() {
-		return review.toString();
+		return reviewName;
 	}
+	
+	
 	
 	public long getId() {
 		return id;
