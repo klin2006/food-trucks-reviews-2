@@ -1,50 +1,48 @@
 package foodTruckReviews;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.GeneratedValue; 
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.ManyToOne;
 
 
 @Entity
+public class Comment {
 
-public class Cuisine {
-	@Id
+	
 	@GeneratedValue
+	@Id
 	private long id;
 	
-	private String type;
+	private String comment;
+	
+	@ManyToOne
+	private Review review;
+
 	
 
-	@ManyToMany(mappedBy = "cuisines")
-	private Collection<Foodtruck>foodtrucks;
-
+	public Comment(String comment, Review review) {
+		this.comment = comment;
+		this.review = review;
+	}
 	
-	public Cuisine() {
+	public Comment() {
 		
 	}
 
-	public Cuisine(String type) {
-		this.type = type;
-	}
-	
-	public String getName() {
-		return type.toString();
-	}
-	
 	public long getId() {
+		
 		return id;
 	}
-	
-	public String getType(){
-		return type;
-	}
 
-	public Collection<Foodtruck> getFoodtrucks(){
-		return foodtrucks;
+	public String getComment() {
+		
+		return comment;
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class Cuisine {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cuisine other = (Cuisine) obj;
+		Comment other = (Comment) obj;
 		if (id != other.id)
 			return false;
 		return true;

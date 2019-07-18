@@ -1,12 +1,26 @@
 package foodTruckReviews;
 
 
-import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+
+import javax.persistence.Lob;
+
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+
+
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Review {
@@ -16,18 +30,27 @@ public class Review {
 	@GeneratedValue
 	private long id;
 	
+	@Lob
 	private String review;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy ="review")
+	private Collection<Comment> comments;
 	
 	public Review() {
 	}
 	
+	@JsonIgnore
 	@ManyToOne
 	private Foodtruck foodtruck;
 
-	public Review(String review, Foodtruck foodtruck) {
+	private String reviewName;
+
+	public Review(String reviewName,String review, Foodtruck foodtruck) {
+		this.reviewName = reviewName;
 		this.review = review;
 		this.foodtruck = foodtruck;
-	
+		
 	}
 	
 	public String getReview() {
@@ -35,11 +58,18 @@ public class Review {
 	}
 	
 	public String getName() {
-		return review.toString();
+		return reviewName;
 	}
+	
+	
 	
 	public long getId() {
 		return id;
+	}
+	
+	public Collection<Comment> getComments() {
+		
+		return comments;
 	}
 	
 	@Override
@@ -64,5 +94,6 @@ public class Review {
 			return false;
 		return true;
 	}
+
 
 }

@@ -30,12 +30,14 @@ public class FoodTruckControllerMockMvcTest {
 	private FoodtruckRepository foodTruckRepo;
 	
 	@MockBean
-	private CuisineRepository cuisineRepo;
+	private TagRepository tagRepo;
 	
 	@MockBean
 	private ReviewRepository reviewRepo;
 	
-	
+	@MockBean
+	private CommentRepository commentRepo;
+		
 	@Mock
 	Foodtruck foodTruck;
 	
@@ -49,10 +51,17 @@ public class FoodTruckControllerMockMvcTest {
 	Review anotherReview;
 	
 	@Mock
-	Cuisine cuisine;
+	Tag tag;
 	
 	@Mock
-	Cuisine anotherCuisine;
+	Tag anotherTag;
+	
+	@Mock
+	Comment comment;
+	
+	@Mock
+	Comment anotherComment;
+	
 	
 	
 	@Test
@@ -80,7 +89,7 @@ public class FoodTruckControllerMockMvcTest {
 	@Test
 	public void shouldPutSingleFoodTruckIntoModel() throws Exception {
 		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
-		mvc.perform(get("/foodtruck?id=1")).andExpect(model().attribute("foodtrucks", is (foodTruck)));
+		mvc.perform(get("/foodtruck?id=1")).andExpect(model().attribute("foodtruck", is (foodTruck)));
 	}
 	
 	@Test
@@ -119,47 +128,95 @@ public class FoodTruckControllerMockMvcTest {
 	}
 	
 	@Test
-	public void shouldRouteToSingleCuisineView() throws Exception{
-		long arbitraryCuisineId = 1;
-		when(cuisineRepo.findById(arbitraryCuisineId)).thenReturn(Optional.of(cuisine));
+	public void shouldRouteToSingleTagView() throws Exception{
+		long arbitraryTagId = 1;
+		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
 		
-		mvc.perform(get("/cuisine?id=1")).andExpect(view().name(is("cuisine")));
+		mvc.perform(get("/tag?id=1")).andExpect(view().name(is("tag")));
 	}
 	
 	@Test
-	public void shouldRouteToSingleCuisine() throws Exception{
-		long arbitraryCuisineId = 1;
-		when(cuisineRepo.findById(arbitraryCuisineId)).thenReturn(Optional.of(cuisine));
+	public void shouldRouteToSingleTag() throws Exception{
+		long arbitraryTagId = 1;
+		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
 		
-		mvc.perform(get("/cuisine?id=1")).andExpect(status().isOk());
+		mvc.perform(get("/tag?id=1")).andExpect(status().isOk());
 		
 		}
 	
 	@Test
-	public void shouldNotRouteToSingleCuisine() throws Exception {
-		mvc.perform(get("/cuisine?id=1")).andExpect(status().isNotFound());
+	public void shouldNotRouteToSingleTag() throws Exception {
+		mvc.perform(get("/tag?id=1")).andExpect(status().isNotFound());
 	}
 	
 	@Test
-	public void shouldPutSingleCuisineIntoModel() throws Exception {
-		when(cuisineRepo.findById(1L)).thenReturn(Optional.of(cuisine));
-		mvc.perform(get("/cuisine?id=1")).andExpect(model().attribute("cuisines", is (cuisine)));
+	public void shouldPutSingleTagIntoModel() throws Exception {
+		when(tagRepo.findById(1L)).thenReturn(Optional.of(tag));
+		mvc.perform(get("/tag?id=1")).andExpect(model().attribute("tags", is (tag)));
 	}
 	
 	@Test
-	public void shouldRouteToAllCuisinesView () throws Exception {
-		mvc.perform(get("/show-all-cuisines")).andExpect(view().name(is("show-all-cuisines")));
+	public void shouldRouteToAllTagsView () throws Exception {
+		mvc.perform(get("/show-all-tags")).andExpect(view().name(is("show-all-tags")));
 	}
 	@Test
-	public void shouldBeokForAllCuisines () throws Exception {
-		mvc.perform(get("/show-all-cuisines")).andExpect(status().isOk());
+	public void shouldBeokForAllTags () throws Exception {
+		mvc.perform(get("/show-all-tags")).andExpect(status().isOk());
 	}
 	
 	@Test
-	public void shouldPutAllCuisinesIntoModel() throws Exception {
-		Collection<Cuisine> allCuisines = Arrays.asList(cuisine, anotherCuisine);
-		when(cuisineRepo.findAll()).thenReturn(allCuisines);
+	public void shouldPutAllTagsIntoModel() throws Exception {
+		Collection<Tag> allTags = Arrays.asList(tag, anotherTag);
+		when(tagRepo.findAll()).thenReturn(allTags);
 		
-		mvc.perform(get("/show-all-cuisines")).andExpect(model().attribute("cuisines", is(allCuisines)));
+		mvc.perform(get("/show-all-tags")).andExpect(model().attribute("tags", is(allTags)));
+	}
+	
+	@Test
+	public void shouldRouteToSingleCommentView() throws Exception {
+		long arbitraryCommentId = 1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		mvc.perform(get("/comment?id=1")).andExpect(view().name(is("comment")));
+	
+	}
+	
+	@Test
+	public void shouldRouteToSingleComment() throws Exception {
+		long arbitraryCommentId =1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		mvc.perform(get("/comment?id=1")).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void shouldNotRouteToSingleComment() throws Exception {
+		mvc.perform(get("/comment?id=1")).andExpect(status().isNotFound());
+		
+	}
+	
+	@Test
+	public void shouldPutSingleCommentIntoModel() throws Exception {
+		when(commentRepo.findById(1L)).thenReturn(Optional.of(comment));
+		mvc.perform(get("/comment?id=1")).andExpect(model().attribute("comments",  is(comment)));
+	}
+	
+	@Test
+	public void shouldRouteToAllCommentsView() throws Exception {
+		mvc.perform(get("/show-all-comments")).andExpect(view().name(is("show-all-comments")));
+	}
+	
+	@Test
+	public void shouldBeOkForAllComments() throws Exception {
+		mvc.perform(get("/show-all-comments")).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void shouldPutAllCommentsIntoModel() throws Exception {
+		Collection<Comment> allComments = Arrays.asList(comment, anotherComment);
+		when(commentRepo.findAll()).thenReturn(allComments);
+		
+		mvc.perform(get("/show-all-comments")).andExpect(model().attribute("comments", is(allComments)));
 	}
 }
+

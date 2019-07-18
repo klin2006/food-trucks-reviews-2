@@ -1,5 +1,6 @@
 package foodTruckReviews;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,13 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
-
-
-
-
-
 
 
 public class FoodTruckControllerTest {
@@ -44,16 +41,26 @@ public class FoodTruckControllerTest {
 	private ReviewRepository reviewRepo;
 	
 	@Mock
-	private Cuisine cuisine;
+	private Tag tag;
 	
 	@Mock
-	private Cuisine anotherCuisine;
+	private Tag anotherTag;
 	
 	@Mock
-	private CuisineRepository cuisineRepo;
+	private TagRepository tagRepo;
 	
 	@Mock
 	private Model model;
+	
+	@Mock
+	private CommentRepository commentRepo;
+	
+	@Mock
+	private Comment comment;
+	
+	@Mock
+	private Comment anotherComment;
+	
 	
 	@Before
 	public void setUp() {
@@ -66,7 +73,7 @@ public class FoodTruckControllerTest {
 		when(foodTruckRepo.findById(arbitraryFoodTruckId)).thenReturn(Optional.of(foodTruck));
 		
 		underTest.findOneFoodTruck(arbitraryFoodTruckId, model);
-		verify(model).addAttribute("foodtrucks", foodTruck);
+		verify(model).addAttribute("foodtruck", foodTruck);
 	}
 	
 	@Test
@@ -96,5 +103,68 @@ public class FoodTruckControllerTest {
 		underTest.findAllReviews(model);
 		verify(model).addAttribute("reviews", allreviews);
 	}
+	
+	@Test
+	public void shouldAddSingleTagToModel() throws TagNotFoundException {
+		long arbitraryTagId = 1;
+		when(tagRepo.findById(arbitraryTagId)).thenReturn(Optional.of(tag));
+		
+		underTest.findOneTag(arbitraryTagId, model);
+		verify(model).addAttribute("tags", tag);
+	}
+	
+	@Test
+	public void shouldAddAllTagsModel() {
+		Collection<Tag> allTags = Arrays.asList(tag, anotherTag);
+		when(tagRepo.findAll()).thenReturn(allTags);
+		
+		underTest.findAllTags(model);
+		verify(model).addAttribute("tags", allTags);
+	}
+	
+	@Test
+	public void shouldAddNewTagToFoodtruck() {
+		when(tagRepo.findByType("TagType")).thenReturn(null);
+		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
+		underTest.addTagToFoodTruck("TagType",1L, model);
+		verify(foodTruckRepo).save(foodTruck);
+		
+	}
+	
+	@Test
+	public void shouldAddSingleCommentToModel() throws CommentNotFoundException {
+		long arbitraryCommentId = 1;
+		when(commentRepo.findById(arbitraryCommentId)).thenReturn(Optional.of(comment));
+		
+		underTest.findOneComment(arbitraryCommentId, model);
+		verify(model).addAttribute("comments", comment);
+	}
+	
+	@Test
+	public void shouldAddAllCommentsToModel() {
+		Collection<Comment> allComments = Arrays.asList(comment, anotherComment);
+		when(commentRepo.findAll()).thenReturn(allComments);
+		
+		underTest.findAllComments(model);
+		verify(model).addAttribute("comments", allComments);
+	}
+	
+	
+	@Test
+	public void shouldAddAdditonalCommentsToModel() {
+		Foodtruck foodTruck = new Foodtruck("name", "map");
+		Review review = new Review("review name", "reviewreview", foodTruck);
+		reviewRepo.save(review);
+		
+		long id = review.getId();
+		System.out.println("review equals " + review + " the id equals " + id);
+		Review newReview = reviewRepo.findByReview(review);
+		String commentComment = "comment comment";
+		
+		underTest.addComment(commentComment, id);
+		Comment newComment = new Comment(commentComment, newReview);
+		when(commentRepo.save(newComment)).thenReturn(newComment);
+	}
+
 }
 
