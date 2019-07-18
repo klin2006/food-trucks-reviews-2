@@ -31,10 +31,12 @@ public class FoodTruckController {
 
 	@RequestMapping("/foodtruck")
 	public String findOneFoodTruck(@RequestParam(value = "id") Long id, Model model) throws FoodTruckNotFoundException {
+		model.addAttribute("foodtrucks", foodTruckRepo.findAll());
+
 		Optional<Foodtruck> foodTruck = foodTruckRepo.findById(id);
 
 		if (foodTruck.isPresent()) {
-			model.addAttribute("foodtrucks", foodTruck.get());
+			model.addAttribute("foodtruck", foodTruck.get());
 			return ("foodtruck");
 		}
 		throw new FoodTruckNotFoundException();
@@ -62,6 +64,8 @@ public class FoodTruckController {
 	@RequestMapping("/show-all-reviews")
 	public String findAllReviews(Model model) {
 		model.addAttribute("reviews", reviewRepo.findAll());
+		model.addAttribute("foodtrucks", foodTruckRepo.findAll());
+
 		return ("show-all-reviews");
 
 	}
@@ -78,6 +82,7 @@ public class FoodTruckController {
 
 			return ("tag");
 		}
+		
 		throw new TagNotFoundException();
 
 	}
@@ -85,6 +90,7 @@ public class FoodTruckController {
 	@RequestMapping("/show-all-tags")
 	public String findAllTags(Model model) {
 		model.addAttribute("tags", tagRepo.findAll());
+		model.addAttribute("foodtrucks", foodTruckRepo.findAll());
 		return ("show-all-tags");
 	}
 
@@ -114,18 +120,41 @@ public class FoodTruckController {
 		return "partial/tags-list-removed";
 	}
 
-	@RequestMapping(path = "/tags/{tagType}/{id}", method = RequestMethod.POST)
-	public void addTagToFoodTruck(String tagType, long id) {
+
+	@RequestMapping(path ="/tags/{tagType}/{id}", method= RequestMethod.POST)
+	public String addTagToFoodTruck(@PathVariable String tagType, @PathVariable Long id, Model model) {
+
 		Tag tagToAdd = tagRepo.findByType(tagType);
 		if (tagToAdd == null) {
 			tagToAdd = new Tag(tagType);
+			tagRepo.save(tagToAdd);
 		}
 		Foodtruck foodTruckToAddTo = foodTruckRepo.findById(id).get();
 
 		foodTruckToAddTo.addTag(tagToAdd);
 		foodTruckRepo.save(foodTruckToAddTo);
 
+		model.addAttribute("foodtruck", foodTruckToAddTo);
+		
+		return "partial/tags-list-addded-to-foodtruck";
+		
 	}
+	
+	
+//	@RequestMapping(path ="/tags/remove/{tagType}/{id}", method= RequestMethod.POST)
+//	public String removeTagFromFoodTruck(@PathVariable String tagType, @PathVariable Long id, Model model) {
+//		Tag tagToRemove = tagRepo.findByType(tagType);
+//		
+//		Foodtruck foodTruckToRemoveFrom = foodTruckRepo.findById(id).get();
+//		
+//		foodTruckToRemoveFrom.removeTag(tagToRemove);
+//		foodTruckRepo.save(foodTruckToRemoveFrom);
+//		model.addAttribute("tags", tagRepo.findAll());
+//		
+//		return "partial/tags-list-removed-to-foodtruck";
+//		
+//	}
+
 
 	@RequestMapping("/comment")
 	public String findOneComment(@RequestParam(value = "id") Long id, Model model) throws CommentNotFoundException {
@@ -160,29 +189,10 @@ public class FoodTruckController {
 		return "redirect:/show-all-foodtrucks";
 	}
 
-	@RequestMapping("/add-foodtruck-tag")
-	public String addTagToFoodtruck(String foodtruckName, String foodtruckMap, String tagType) {
-		Tag tag = tagRepo.findByType(tagType);
-
-		if (tag == null) {
-			tag = new Tag(tagType);
-			tagRepo.save(tag);
-		}
-
-		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
-		if (newFoodtruck == null) {
-			newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, tag);
-			foodTruckRepo.save(newFoodtruck);
-		}
-
-		return "redirect:/show-all-foodtrucks";
-	}
-
 	@RequestMapping("/find-by-tag")
 	public String findFoodtrucksByTag(String tagType, Model model) {
 		Tag tag = tagRepo.findByType(tagType);
 		model.addAttribute("foodtrucks", foodTruckRepo.findByTagsContains(tag));
-
 		return "/tag";
 	}
 
@@ -200,3 +210,4 @@ public class FoodTruckController {
 	}
 
 }
+

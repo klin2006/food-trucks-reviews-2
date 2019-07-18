@@ -126,7 +126,7 @@ public class FoodTruckControllerTest {
 	public void shouldAddNewTagToFoodtruck() {
 		when(tagRepo.findByType("TagType")).thenReturn(null);
 		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
-		underTest.addTagToFoodTruck("TagType",1L);
+		underTest.addTagToFoodTruck("TagType",1L, model);
 		verify(foodTruckRepo).save(foodTruck);
 		
 	}
@@ -189,5 +189,6 @@ public class FoodTruckControllerTest {
 		Comment newComment = new Comment(commentComment, newReview);
 		when(commentRepo.save(newComment)).thenReturn(newComment);
 	}
+
 }
 

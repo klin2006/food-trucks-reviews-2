@@ -25,7 +25,8 @@ for (i = 0; i < dropdown.length; i++) {
 
 const tagAddButton = document.querySelector('.add-tag button');
 const tagAddInput = document.querySelector('.add-tag input');
-const tagsList = document.querySelector('.tags-list ul');
+const tagsList = document.querySelector('.tags-list');
+const documentContainer = document.querySelector('.container')
 const foodtruckId = document.querySelector('.foodtruckId');
 
 const xhr = new XMLHttpRequest()
@@ -51,47 +52,16 @@ tagsList.addEventListener('click', function(event){
 })
 
 
-function postTags(tagType, foodtruckIdToAdd){
-    xhr.open('POST', '/tags/' + tagType, true);
-    // xhr.open('POST', '/tags/' + tagType + '/' + foodtruckIdToAdd, true);
+function postTags(tagType){
+    // xhr.open('POST', '/tags/' + tagType, true);
+    const foodtruckIdToAdd= document.querySelector('.foodtruckId');
+    xhr.open('POST', '/tags/' + tagType + '/' + foodtruckIdToAdd.value, true);
     xhr.send();
 }
 
 function removeTag(id){
     xhr.open('POST', '/tags/remove/' + id, true);
+    // const foodtruckIdToRemove= document.querySelector('.foodtruckId');
+    // xhr.open('POST', '/tags/remove/' + tagType + '/' + foodtruckIdToRemove.value, true);
     xhr.send();
 }
-
-// const xhr2 = new XMLHttpRequest()
-// xhr2.onreadystatechange = function(){
-//     if(xhr2.readyState === 4 && xhr2.status === 200){
-//     const res2 = xhr2.responseText;
-//     commentAddInput.innerHTML = res2;
-//     }
-// }
-
-// commentAddButton.addEventListener('click', function(){
-//     postTags(commentAddInput.value);
-//     console.log(commentAddInput.value);
-//     commentAddInput.value = "";
-// })
-
-// tagsList2.addEventListener('click', function(event2){
-//     if(event2.target.classList.contains('x')){
-//     let tagId2 = event2.target.previousElementSibling.previousElementSibling.value;
-//       console.log(tagId2);
-//       removeTag(tagId2);
-//     }
-// })
-
-
-// function postTags(tagType){
-//     xhr2.open('POST', '/comments/' + tagType, true);
-//     xhr2.send();
-// }
-
-// function removeTag(id){
-//     xhr2.open('POST', '/comments/remove/' + id, true);
-//     xhr2.send();
-
-// }
