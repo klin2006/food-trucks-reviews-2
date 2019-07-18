@@ -73,7 +73,7 @@ public class FoodTruckControllerTest {
 		when(foodTruckRepo.findById(arbitraryFoodTruckId)).thenReturn(Optional.of(foodTruck));
 		
 		underTest.findOneFoodTruck(arbitraryFoodTruckId, model);
-		verify(model).addAttribute("foodtrucks", foodTruck);
+		verify(model).addAttribute("foodtruck", foodTruck);
 	}
 	
 	@Test
@@ -149,30 +149,6 @@ public class FoodTruckControllerTest {
 		verify(model).addAttribute("comments", allComments);
 	}
 	
-	@Test
-	public void shouldAddAdditionalReviewToModel() {
-		String foodtruckName = "foodtruck name";
-		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
-		String reviewReview = "new review";
-		String reviewName = "review name";
-		underTest.addReview(reviewName, reviewReview, foodtruckName);
-		Review newReview = new Review(reviewName, reviewReview, newFoodtruck);
-		when(reviewRepo.save(newReview)).thenReturn(newReview);
-		
-	}
-	
-	@Test
-	public void shouldAddAdditionalFoodtruckTagToModel() {
-		String tagType = "tag type";
-		Tag newTag = tagRepo.findByType(tagType);
-		
-		String foodtruckName = "new foodtruck";
-		String foodtruckMap = "new map";
-		underTest.addTagToFoodtruck(foodtruckName, foodtruckMap, tagType);
-		Foodtruck newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, newTag);
-		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
-		
-	}
 	
 	@Test
 	public void shouldAddAdditonalCommentsToModel() {

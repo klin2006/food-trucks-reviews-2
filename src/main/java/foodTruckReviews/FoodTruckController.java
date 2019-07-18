@@ -51,6 +51,8 @@ public class FoodTruckController {
 
 	@RequestMapping("/review")
 	public String findOneReview(@RequestParam(value = "id") Long id, Model model) throws ReviewNotFoundException {
+		model.addAttribute("foodtrucks", foodTruckRepo.findAll());
+
 		Optional<Review> review = reviewRepo.findById(id);
 
 		if (review.isPresent()) {
@@ -177,7 +179,9 @@ public class FoodTruckController {
 	}
 
 	@RequestMapping("/add-review")
-	public String addReview(String reviewName, String reviewReview, String foodtruckName) {
+	public String addReview(String reviewName, String reviewReview, String foodtruckName, Model model) {
+		model.addAttribute("foodtrucks", foodTruckRepo.findAll());
+
 		Foodtruck foodtruck = foodTruckRepo.findByName(foodtruckName);
 		Review newReview = reviewRepo.findByReviewName(reviewReview);
 
