@@ -126,7 +126,7 @@ public class FoodTruckControllerTest {
 	public void shouldAddNewTagToFoodtruck() {
 		when(tagRepo.findByType("TagType")).thenReturn(null);
 		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
-		underTest.addTagToFoodTruck("TagType",1L);
+		underTest.addTagToFoodTruck("TagType",1L, model);
 		verify(foodTruckRepo).save(foodTruck);
 		
 	}
@@ -160,17 +160,6 @@ public class FoodTruckControllerTest {
 		
 	}
 	
-	@Test
-	public void shouldAddAdditionalFoodtruckTagToModel() {
-		String tagType = "tag type";
-		Tag newTag = tagRepo.findByType(tagType);
-		
-		String foodtruckName = "new foodtruck";
-		String foodtruckMap = "new map";
-		underTest.addTagToFoodtruck(foodtruckName, foodtruckMap, tagType);
-		Foodtruck newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, newTag);
-		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
-		
-	}
+	
 }
 
