@@ -89,7 +89,7 @@ public class FoodTruckControllerMockMvcTest {
 	@Test
 	public void shouldPutSingleFoodTruckIntoModel() throws Exception {
 		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
-		mvc.perform(get("/foodtruck?id=1")).andExpect(model().attribute("foodtrucks", is (foodTruck)));
+		mvc.perform(get("/foodtruck?id=1")).andExpect(model().attribute("foodtruck", is (foodTruck)));
 	}
 	
 	@Test

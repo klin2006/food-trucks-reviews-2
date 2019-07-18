@@ -1,6 +1,8 @@
 package foodTruckReviews;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ import javax.persistence.ManyToMany;
 public class Tag {
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	private String type;
 
@@ -34,7 +36,7 @@ public class Tag {
 		return type.toString();
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	

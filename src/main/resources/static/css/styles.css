@@ -78,7 +78,7 @@ h1{
 }
 
 #singlefoodtruck a:hover, #showcuisines a:hover, .footer a:hover{
-  color: #e4e3e3;
+  color: #050647;
 }
   /* width */
   ::-webkit-scrollbar {
@@ -283,6 +283,10 @@ h1{
 #main {
   transition: margin-left .5s;
   padding: 16px;
+}
+
+#commentReviewInput {
+  display: none;
 }
 
 @media screen and (max-height: 450px) {

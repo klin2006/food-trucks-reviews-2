@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Food Truck</title>
+</head>
+<link rel="stylesheet" href="./css/styles.css">
+<body>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="http://localhost:8080/show-all-foodtrucks">Home</a>
+        <a href="http://localhost:8080/show-all-tags">Tags</a>
+        <a href="http://localhost:8080/show-all-reviews">Reviews</a>
+        <button class="dropdown-btn">Food Trucks 
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          <div th:each="foodtruck: ${foodtrucks}">
+              <a th:href="@{/foodtruck(id=${foodtruck.id})}" th:text="${foodtruck.name}"></a>
+          </div>
+      </div>
+      </div>
+      <div id="main">
+          <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Food Truck Reviews</span>
+
+        </div>
+        
+        
+        <div class="center">
+            <div id="review" th:each="review: ${reviews}">
+                <h3 th:text="${review.name}"></h3>
+                <p th:text="${review.review}"></p>
+                <h3>Comments</h3> 
+                <ul th:each="comment: ${review.comments}" >
+                    <li th:text="${comment.comment}"></li>
+                </ul>
+            </div>
+                
+              <form method="POST">
+                <div>
+                    <input type="text" name="commentComment" placeholder="enter comment here" />
+                </div>
+
+                <div id="commentReviewInput">
+                    <input type="number"  name="id" th:value="${reviews.id}">         
+                </div>
+               
+               <div>
+                <button th:formaction="@{/add-comment}">add comment</button>
+                </div>
+           
+        </form>
+    
+
+            </div>
+
+        
+
+        <footer class = "footer"> 
+            </footer>
+          <script src="./js/server-requests.js"></script>
+                     </div>	
+            <footer class = "footer"> 
+            </footer>
+
+    </body>
+    </html>

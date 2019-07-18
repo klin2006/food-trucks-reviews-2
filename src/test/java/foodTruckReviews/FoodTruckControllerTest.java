@@ -73,7 +73,7 @@ public class FoodTruckControllerTest {
 		when(foodTruckRepo.findById(arbitraryFoodTruckId)).thenReturn(Optional.of(foodTruck));
 		
 		underTest.findOneFoodTruck(arbitraryFoodTruckId, model);
-		verify(model).addAttribute("foodtrucks", foodTruck);
+		verify(model).addAttribute("foodtruck", foodTruck);
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class FoodTruckControllerTest {
 	public void shouldAddNewTagToFoodtruck() {
 		when(tagRepo.findByType("TagType")).thenReturn(null);
 		when(foodTruckRepo.findById(1L)).thenReturn(Optional.of(foodTruck));
-		underTest.addTagToFoodTruck("TagType",1L);
+		underTest.addTagToFoodTruck("TagType",1L, model);
 		verify(foodTruckRepo).save(foodTruck);
 		
 	}
@@ -149,28 +149,22 @@ public class FoodTruckControllerTest {
 		verify(model).addAttribute("comments", allComments);
 	}
 	
-	@Test
-	public void shouldAddAdditionalReviewToModel() {
-		String foodtruckName = "foodtruck name";
-		Foodtruck newFoodtruck = foodTruckRepo.findByName(foodtruckName);
-		String reviewReview = "new review";
-		underTest.addReview(reviewReview, foodtruckName);
-		Review newReview = new Review(reviewReview, newFoodtruck);
-		when(reviewRepo.save(newReview)).thenReturn(newReview);
-		
-	}
 	
 	@Test
-	public void shouldAddAdditionalFoodtruckTagToModel() {
-		String tagType = "tag type";
-		Tag newTag = tagRepo.findByType(tagType);
+	public void shouldAddAdditonalCommentsToModel() {
+		Foodtruck foodTruck = new Foodtruck("name", "map");
+		Review review = new Review("review name", "reviewreview", foodTruck);
+		reviewRepo.save(review);
 		
-		String foodtruckName = "new foodtruck";
-		String foodtruckMap = "new map";
-		underTest.addTagToFoodtruck(foodtruckName, foodtruckMap, tagType);
-		Foodtruck newFoodtruck = new Foodtruck(foodtruckName, foodtruckMap, newTag);
-		when(foodTruckRepo.save(newFoodtruck)).thenReturn(newFoodtruck);
+		long id = review.getId();
+		System.out.println("review equals " + review + " the id equals " + id);
+		Review newReview = reviewRepo.findByReview(review);
+		String commentComment = "comment comment";
 		
+		underTest.addComment(commentComment, id);
+		Comment newComment = new Comment(commentComment, newReview);
+		when(commentRepo.save(newComment)).thenReturn(newComment);
 	}
+
 }
 
